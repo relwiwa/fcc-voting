@@ -17,6 +17,8 @@ mongoose.connect(process.env.MONGO_DATABASE);
 
 // Routes
 var appRoutes = require('./server/routes/app');
+var pollRoutes = require('./server//routes/poll');
+var userRoutes = require('./server/routes/user');
 
 // MIDDLEWARES
 
@@ -38,6 +40,8 @@ app.use(function (req, res, next) {
 });
 
 // Setup routes
+app.use('/poll', pollRoutes);
+app.use('/user', userRoutes);
 app.use('/', appRoutes);
 
 // 404 handling: send index.html
