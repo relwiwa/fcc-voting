@@ -1,3 +1,31 @@
-<p>
-  poll-creation works!
-</p>
+<div class="col-md-8 col-md-offset-2">
+  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-group">
+      <label for="question">Question</label>
+      <input
+        type="text"
+        id="question"
+        class="form-control"
+        [ngModel]="poll.question"
+        name="question"
+        required>
+      <div *ngFor="let option of poll.options; let i = index;">
+        <label for="option{{i}}">Option {{i + 1}}:</label>
+        <input
+          type="text"
+          id="option{{i}}"
+          class="form-control"
+          [ngModel]="option"
+          name="option{{i}}"
+          required>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="btn btn-warning"
+      (click)="addOption()">Add Option</button>
+    <button
+      class="btn btn-primary"
+      type="submit">Save Poll</button>
+  </form>
+</div>

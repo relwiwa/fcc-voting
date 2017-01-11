@@ -8,6 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
+  console.log(req.body);
   res.status(201).json({
     message: 'Route to add new poll'
   });
