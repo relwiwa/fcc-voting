@@ -24,12 +24,15 @@ export class PollCreationComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    let pollOptions = [];
     this.poll.question = form.value.question;
     for (var i = 0; i < this.poll.options.length; i++) {
       if (form.value['option' + i] !== '') {
-        this.poll.options[i] = form.value['option' + i];
+        pollOptions.push(form.value['option' + i]);
       }
     }
+    this.poll.options = pollOptions;
+    this.poll.creatorId = 'DummyId';
     this.pollService.createPoll(this.poll)
       .subscribe(
         data => console.log(data),

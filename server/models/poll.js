@@ -1,6 +1,17 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var Option = new Schema({
+  value: {
+    type: String,
+    required: true
+  },
+  votes: {
+    type: Number,
+    default: 0
+  }
+});
+
 var schema = new Schema({
   question: {
     type: String,
@@ -11,9 +22,10 @@ var schema = new Schema({
     type: Date,
     default: Date.now()
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
+  creator: {
+    //type: Schema.Types.ObjectId,
+    //ref: 'User'
+    type: String
   }
 });
 

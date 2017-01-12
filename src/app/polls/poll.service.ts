@@ -25,17 +25,16 @@ export class PollService {
       body,
       headers)
     .map((response: Response) => {
-      const result = response.json();
-      return result;
-      /*const poll = new Poll(
-        result.obj.question,
-        result.obj.options,
-        result.obj.created,
-        result.obj.creator._id,
-        result.obj._id
+      const result = response.json().response;
+      const poll = new Poll(
+        result.question,
+        result.options,
+        result.created,
+        result.creator,
+        result._id // todo: replace with creator._id
       );
       this.polls.push(poll);
-      return poll;*/
+      return poll;
     })
     .catch((error: Response) => {
       return Observable.throw(error.json());

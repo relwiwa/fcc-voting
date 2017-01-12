@@ -1,24 +1,29 @@
-<div class="col-md-8 col-md-offset-2">
+<div class="col-xs-12">
   <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="form-group">
-      <label for="question">Question</label>
+      <legend>Question</legend>
       <input
         type="text"
         id="question"
         class="form-control"
         [ngModel]="poll.question"
         name="question"
+        placeholder="Question"
         required>
-      <div *ngFor="let option of poll.options; let i = index;">
-        <label for="option{{i}}">Option {{i + 1}}:</label>
+    </div>
+    <div class="form-group">
+      <fieldset>
+        <legend>Options</legend>
         <input
+          *ngFor="let option of poll.options; let i = index;"
           type="text"
           id="option{{i}}"
           class="form-control"
           [ngModel]="option"
           name="option{{i}}"
-          required>
-      </div>
+          placeholder="Option {{i + 1}}"
+          [attr.required]="i < 2 ? '' : null">
+      </fieldset>
     </div>
     <button
       type="button"
