@@ -9,7 +9,7 @@ export class Poll {
     this.question = question;
     this.options = options;
     this.created = created;
-    this.pollId = pollId;
     this.creatorId = creatorId;
+    this.pollId = pollId;
   }
 }

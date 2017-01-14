@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Poll } from '../poll.model';
-import { PollService } from '../poll.service';
+import { Poll } from '../../polls/poll.model';
+import { PollService } from '../../polls/poll.service';
 
 @Component({
-  selector: 'app-polls',
-  templateUrl: './polls.component.html',
-  styleUrls: ['./polls.component.css']
+  selector: 'app-dashboard',
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.css']
 })
 
-export class PollsComponent implements OnInit {
-
+export class DashboardComponent implements OnInit {
   polls: Poll[] = null;
 
   constructor(private pollService: PollService) { }

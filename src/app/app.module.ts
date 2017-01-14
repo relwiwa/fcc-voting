@@ -15,6 +15,8 @@ import { PollService } from './polls/poll.service';
 import { routes } from './app.routes';
 import { SigninComponent } from './user/signin/signin.component';
 import { SignupComponent } from './user/signup/signup.component';
+import { DashboardComponent } from './layout/dashboard/dashboard.component';
+import { PollsListComponent } from './polls/polls-list/polls-list.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { SignupComponent } from './user/signup/signup.component';
     PollDetailComponent,
     PollsComponent,
     SigninComponent,
-    SignupComponent
+    SignupComponent,
+    DashboardComponent,
+    PollsListComponent
   ],
   imports: [
     BrowserModule,

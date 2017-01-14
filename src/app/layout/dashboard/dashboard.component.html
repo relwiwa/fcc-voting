@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col col-xs-12 col-md-6">
+    Intro-Image and Description of Decisions, decisions
+  </div>
+  <div class="col col-xs-12 col-md-6">
+    Login and Signup
+  </div>
+</div>
+<div class="row">
+  <h3 div class="col col-xs-12">The most recent polls</h3>
+  <app-polls-list [polls]="polls" [amount]="2"></app-polls-list>
+  <div class="col col-xs-12 text-right"><a href="#">Show all recent polls</a></div>
+</div>
+<div class="row">
+  <h3 div class="col col-xs-12">These polls need your vote</h3>
+  <app-polls-list [polls]="polls" [amount]="3"></app-polls-list>
+  <div class="col col-xs-12 text-right"><a href="#">Show all polls that need your vote</a></div>
+</div>  

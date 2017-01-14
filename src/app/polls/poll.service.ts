@@ -8,7 +8,7 @@ import { Poll } from './poll.model';
 
 @Injectable()
 export class PollService {
-  private polls: Poll[] = [];
+  private polls: Poll[] = null;
 
   constructor(private http: Http) { }
 
@@ -44,7 +44,7 @@ export class PollService {
   getPolls() {
     return this.http.get('http://localhost:3000/poll')
     .map((response: Response) => {
-      const polls = response.json().obj;
+      const polls = response.json().response;
       let transformedPolls: Poll[] = [];
       for (let poll of polls) {
         transformedPolls.push(
@@ -52,13 +52,13 @@ export class PollService {
             poll.question,
             poll.options,
             poll.created,
-            poll.creator._id,
+            poll.creator,
             poll._id
           )
         );
-        this.polls = transformedPolls;
-        return transformedPolls;
       }
+      this.polls = transformedPolls;
+      return transformedPolls;
     })
     .catch((error: Response) => {
       return Observable.throw(error.json());
