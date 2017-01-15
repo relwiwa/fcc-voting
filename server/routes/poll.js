@@ -20,6 +20,24 @@ router.get('/', function(req, res, next) {
     })
 });
 
+router.get('/:pollId', function(req, res, next) {
+  Poll.find({'_id': req.params.pollId})
+    .exec(function(err, poll) {
+      if (err) {
+        return res.status(500).json({
+          title: 'An error ocurred: Was not able to get this poll'
+        });
+      }
+      else {
+        res.status(200).json({
+          message: 'Retrieval of poll was successful',
+          response: poll
+        });
+      }
+    })
+});
+
+
 router.post('/', function(req, res, next) {
   var options = [];
   for (var i = 0; i < req.body.options.length; i++) {

@@ -65,4 +65,12 @@ export class PollService {
     });
   }
 
+   getPollById(pollId) {
+    return this.polls.filter(function(poll) {
+      if (poll.pollId === pollId) {
+        return poll;
+      }
+    });
+  }
+
 }

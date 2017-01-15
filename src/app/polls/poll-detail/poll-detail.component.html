@@ -1,3 +1,8 @@
-<p>
-  poll-detail works!
-</p>
+<div class="row panel panel-default">
+  <div class="col col-xs-12 panel-body">{{poll.question}}</div>
+  <div class="col col-xs-12 panel-footer">
+    <div *ngFor="let option of poll.options" class="row">
+      <div class="col col-xs-12">{{option.value}}</div>
+    </div>
+  </div>
+</div>

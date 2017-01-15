@@ -4,7 +4,7 @@
     <div class="col col-xs-12 panel-footer">
       <div class="row">
         <div class="col col-xs-8">{{poll.creatorId}}</div>
-        <div class="col col-xs-4 text-right"><a href="#">Vote now</a></div>
+        <div class="col col-xs-4 text-right"><a [routerLink]='["/poll", poll.pollId]' href="#">Vote now</a></div>
       </div>
     </div>
   </div>
