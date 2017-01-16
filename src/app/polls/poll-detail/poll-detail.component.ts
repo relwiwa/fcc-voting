@@ -19,7 +19,6 @@ export class PollDetailComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subscription = this.route.params.subscribe(params => {
       this.poll = this.pollService.getPollById(params['pollId'])[0];
-      console.log(this.poll);
     },
     error => console.log(error)
     );

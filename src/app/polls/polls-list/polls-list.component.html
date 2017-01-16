@@ -1,6 +1,6 @@
 <div *ngFor="let poll of polls | slice:0:getAmount" class="col col-xs-12">
   <div class="row panel panel-default">
-    <div class="col col-xs-12 panel-body">adfdasjflkj dfasldj fskdajf aksdljöfk lasdjfklöjds afa asdlkfjas dkfja skdöjlfalsö lkfaj{{poll.question}}</div>
+    <div class="col col-xs-12 panel-body">{{poll.question}}</div>
     <div class="col col-xs-12 panel-footer">
       <div class="row">
         <div class="col col-xs-8">{{poll.creatorId}}</div>

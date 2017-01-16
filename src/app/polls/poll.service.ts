@@ -30,8 +30,8 @@ export class PollService {
         result.question,
         result.options,
         result.created,
-        result.creator,
-        result._id // todo: replace with creator._id
+        result.creator, // todo: replace with creator._id
+        result._id 
       );
       this.polls.push(poll);
       return poll;
@@ -42,30 +42,36 @@ export class PollService {
   }
 
   getPolls() {
-    return this.http.get('http://localhost:3000/poll')
-    .map((response: Response) => {
-      const polls = response.json().response;
-      let transformedPolls: Poll[] = [];
-      for (let poll of polls) {
-        transformedPolls.push(
-          new Poll(
-            poll.question,
-            poll.options,
-            poll.created,
-            poll.creator,
-            poll._id
-          )
-        );
-      }
-      this.polls = transformedPolls;
-      return transformedPolls;
-    })
-    .catch((error: Response) => {
-      return Observable.throw(error.json());
-    });
+    if (this.polls !== null) {
+      console.log('returned Observable.of');
+      return Observable.of(this.polls);
+    }
+    else {
+      return this.http.get('http://localhost:3000/poll')
+      .map((response: Response) => {
+        const polls = response.json().response;
+        let transformedPolls: Poll[] = [];
+        for (let poll of polls) {
+          transformedPolls.push(
+            new Poll(
+              poll.question,
+              poll.options,
+              poll.created,
+              poll.creator,
+              poll._id
+            )
+          );
+        }
+        this.polls = transformedPolls;
+        return transformedPolls;
+      })
+      .catch((error: Response) => {
+        return Observable.throw(error.json());
+      });
+    }
   }
 
-   getPollById(pollId) {
+  getPollById(pollId) {
     return this.polls.filter(function(poll) {
       if (poll.pollId === pollId) {
         return poll;

@@ -1,15 +1,11 @@
-export class Poll {
-  question: string;
-  options: string[];
-  created: Date;
-  creatorId: string;
-  pollId: string;
+// Typescript Shortcut for class declaration and initiation
 
-  constructor(question: string, options: string[], created: Date, creatorId: string, pollId?: string) {
-    this.question = question;
-    this.options = options;
-    this.created = created;
-    this.creatorId = creatorId;
-    this.pollId = pollId;
-  }
+export class Poll {
+  constructor(
+    public question: string,
+    public options: string[],
+    public created: Date,
+    public creatorId: string,
+    public pollId?: string
+  ) {}
 }

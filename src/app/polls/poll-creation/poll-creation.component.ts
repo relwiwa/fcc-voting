@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Poll } from '../poll.model';
 import { PollService } from '../poll.service';
@@ -13,7 +14,7 @@ import { PollService } from '../poll.service';
 export class PollCreationComponent implements OnInit {
   poll: Poll = null;
 
-  constructor(private pollService: PollService) { }
+  constructor(private pollService: PollService, private router: Router) { }
 
   ngOnInit() {
     this.poll = new Poll('', ['', ''], null, null);
@@ -35,11 +36,14 @@ export class PollCreationComponent implements OnInit {
     this.poll.creatorId = 'DummyId';
     this.pollService.createPoll(this.poll)
       .subscribe(
-        data => console.log(data),
+        data => {
+          this.router.navigateByUrl('/poll/' + data.pollId);
+        },
         error => console.log(error)
       );
-    this.poll = new Poll('', ['', ''], null, null);
-    form.resetForm();
+//    this.poll = new Poll('', ['', ''], null, null);
+//    form.resetForm();
+
   }
 
 }
