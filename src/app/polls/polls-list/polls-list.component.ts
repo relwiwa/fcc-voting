@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { Poll } from '../poll.model';
+import { PollStore } from '../pollStore.service';
 
 @Component({
   selector: 'app-polls-list',
@@ -8,23 +9,23 @@ import { Poll } from '../poll.model';
   styleUrls: ['./polls-list.component.css']
 })
 
-export class PollsListComponent implements OnInit {
+export class PollsListComponent {
 
-  @Input() polls: Poll[] = null;
+  private polls = null;
   @Input() amount: number = null;
 
-  constructor() { }
-
-  public get getAmount() {
-    if (this.amount === null) {
-      return 10000;
-    }
-    else {
-      return this.amount;
-    }
-  }
-
-  ngOnInit() {
-  }
+  constructor(private pollStore: PollStore) {
+    let that = this;
+    this.pollStore.getAllPolls()
+      .then(function(polls) {
+        that.polls = polls;
+        if (that.amount !== null) {
+          that.polls = that.polls.slice(0, that.amount);
+        }
+      })
+      .catch(function(error) {
+        that.polls = [];
+      });
+   }
 
 }

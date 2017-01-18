@@ -1,4 +1,10 @@
-<div *ngFor="let poll of polls | slice:0:getAmount" class="col col-xs-12">
+<div *ngIf="polls === null">Loading polls</div>
+<div *ngIf="polls !== null && polls.length === 0">
+  <div class="row panel panel-default">
+    <div class="col col-xs-12 panel-body">No polls available</div>
+  </div>
+</div>
+<div *ngFor="let poll of polls" class="col col-xs-12">
   <div class="row panel panel-default">
     <div class="col col-xs-12 panel-body">{{poll.question}}</div>
     <div class="col col-xs-12 panel-footer">

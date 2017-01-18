@@ -17,6 +17,8 @@ import { SigninComponent } from './user/signin/signin.component';
 import { SignupComponent } from './user/signup/signup.component';
 import { DashboardComponent } from './layout/dashboard/dashboard.component';
 import { PollsListComponent } from './polls/polls-list/polls-list.component';
+import { PollStore } from './polls/pollStore.service';
+import { PollBackendService } from './polls/pollBackend.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { PollsListComponent } from './polls/polls-list/polls-list.component';
     routes
   ],
   providers: [
-    PollService
+    PollService,
+    PollBackendService,
+    PollStore
   ],
   bootstrap: [AppComponent]
 })

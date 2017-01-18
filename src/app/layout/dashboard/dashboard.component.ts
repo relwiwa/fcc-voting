@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { Poll } from '../../polls/poll.model';
-import { PollService } from '../../polls/poll.service';
+import { PollStore } from '../../polls/pollStore.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,19 +9,6 @@ import { PollService } from '../../polls/poll.service';
   styleUrls: ['./dashboard.component.css']
 })
 
-export class DashboardComponent implements OnInit {
-  polls: Poll[] = null;
-
-  constructor(private pollService: PollService) { }
-
-  ngOnInit() {
-    this.pollService.getPolls()
-      .subscribe(
-        (polls: Poll[]) => {
-          this.polls = polls;
-        },
-        error => console.log(error)
-      );
-  }
+export class DashboardComponent {
 
 }
