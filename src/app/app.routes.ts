@@ -6,11 +6,17 @@ import { PollDetailComponent } from './polls/poll-detail/poll-detail.component';
 import { PollsComponent } from './polls/polls/polls.component';
 
 const APP_ROUTES: Routes = [
-  { path: '',           redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard',         component: DashboardComponent },
-  { path: 'poll-creation',      component: PollCreationComponent },
-  { path: 'polls',              component: PollsComponent },
-  { path: 'poll/:pollId',           component: PollDetailComponent }
+  { path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full' },
+  { path: 'dashboard',
+    component: DashboardComponent },
+  { path: 'poll-creation',
+    component: PollCreationComponent },
+  { path: 'polls',
+    component: PollsComponent },
+  { path: 'poll/:pollId',
+    component: PollDetailComponent }
 ];
 
 export const routes = RouterModule.forRoot(APP_ROUTES);

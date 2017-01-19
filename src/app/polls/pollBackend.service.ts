@@ -15,5 +15,19 @@ export class PollBackendService {
       .toPromise();
   }
 
+  createPoll(poll: Poll) {
+    const body = JSON.stringify(poll);
+    const headers = {
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post(
+      'http://localhost:3000/poll',
+      body,
+      headers)
+      .toPromise();
+  }
 
 }

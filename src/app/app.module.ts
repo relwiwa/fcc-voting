@@ -11,7 +11,6 @@ import { LogoutComponent } from './user/logout/logout.component';
 import { PollCreationComponent } from './polls/poll-creation/poll-creation.component';
 import { PollDetailComponent } from './polls/poll-detail/poll-detail.component';
 import { PollsComponent } from './polls/polls/polls.component';
-import { PollService } from './polls/poll.service';
 import { routes } from './app.routes';
 import { SigninComponent } from './user/signin/signin.component';
 import { SignupComponent } from './user/signup/signup.component';
@@ -42,7 +41,6 @@ import { PollBackendService } from './polls/pollBackend.service';
     routes
   ],
   providers: [
-    PollService,
     PollBackendService,
     PollStore
   ],

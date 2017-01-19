@@ -1,4 +1,4 @@
-<div *ngIf="poll === null">Loading polls</div>
+<div *ngIf="poll === null">{{message}}</div>
 <div *ngIf="poll !== null" class="row panel panel-default">
   <div class="col col-xs-12 panel-body">{{poll.question}}</div>
   <div class="col col-xs-12 panel-footer">

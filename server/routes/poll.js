@@ -20,7 +20,7 @@ router.get('/', function(req, res, next) {
     })
 });
 
-router.get('/:pollId', function(req, res, next) {
+/* router.get('/:pollId', function(req, res, next) {
   Poll.find({'_id': req.params.pollId})
     .exec(function(err, poll) {
       if (err) {
@@ -35,7 +35,7 @@ router.get('/:pollId', function(req, res, next) {
         });
       }
     })
-});
+});*/
 
 
 router.post('/', function(req, res, next) {
