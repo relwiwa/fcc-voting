@@ -4,7 +4,7 @@ import { Poll } from '../poll.model';
 import { PollStore } from '../pollStore.service';
 
 @Component({
-  selector: 'app-polls-list',
+  selector: 'polls-list',
   templateUrl: './polls-list.component.html',
   styleUrls: ['./polls-list.component.css']
 })

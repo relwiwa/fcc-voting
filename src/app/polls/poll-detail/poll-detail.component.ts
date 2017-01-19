@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Poll } from '../poll.model';
-import { PollService } from '../poll.service';
+import { PollStore } from '../pollStore.service';
 
 @Component({
   selector: 'poll-detail',
@@ -14,11 +14,15 @@ export class PollDetailComponent implements OnInit, OnDestroy {
   private poll: Poll = null;
   private subscription: any;
 
-  constructor(private pollService: PollService, private route: ActivatedRoute) { }
+  constructor(private pollStore: PollStore, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    let that = this;
     this.subscription = this.route.params.subscribe(params => {
-      this.poll = this.pollService.getPollById(params['pollId'])[0];
+      this.pollStore.getPollById(params['pollId'])
+      .then(function(response) {
+        that.poll = response[0];
+      });
     },
     error => console.log(error)
     );
