@@ -48,7 +48,7 @@ export class PollStore {
 
   public getPollById(pollId: string) {
     let that = this;
-    var prom = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (that.polls === null && that.promise !== null) {
         that.promise
           .then(function() {
@@ -75,12 +75,11 @@ export class PollStore {
         resolve(that.filterPollById(pollId));
       }
     });
-    return prom;
   }
 
   public createPoll(poll: Poll) {
     let that = this;
-    let prom = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       that.getAllPolls()
         .then(function() {
           that.pollBackendService.createPoll(poll)
@@ -116,7 +115,36 @@ export class PollStore {
           });
         });
     });
-    return prom;
+  }
+
+  public deletePoll(pollId: string) {
+    let that = this;
+    return new Promise((resolve, reject) => {
+      that.pollBackendService.deletePoll(pollId)
+        .then(function(response) {
+          response = response.json();
+          let deletedPoll = null;
+          for (var i = 0; i < that.polls.length; i++) {
+            if (that.polls[i].pollId === response['response']['_id']) {
+              deletedPoll = that.polls.splice(i, 1);
+              break;
+            }
+          }
+          if (deletedPoll !== null) {
+            resolve(deletedPoll);
+          }
+          else {
+            reject({
+              'message': 'Poll was deleted in backend, but not in frontend'
+            });
+          }
+        },
+        function(error) {
+          reject({
+            'message': 'Error in backend, poll was not deleted'
+          });
+        });
+    });
   }
 
   private filterPollById(pollId) {

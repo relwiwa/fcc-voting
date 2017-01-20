@@ -30,4 +30,9 @@ export class PollBackendService {
       .toPromise();
   }
 
+  deletePoll(pollId: string) {
+    return this.http.delete('http://localhost:3000/poll/' + pollId)
+      .toPromise();
+  }
+
 }

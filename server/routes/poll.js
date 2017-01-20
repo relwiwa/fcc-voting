@@ -20,6 +20,7 @@ router.get('/', function(req, res, next) {
     })
 });
 
+// Todo: validate id parameter
 /* router.get('/:pollId', function(req, res, next) {
   Poll.find({'_id': req.params.pollId})
     .exec(function(err, poll) {
@@ -65,6 +66,8 @@ router.post('/', function(req, res, next) {
   });
 });
 
+
+// Todo: validate id parameter
 router.patch('/:id', function(req, res, next) {
   res.status(200).json({
     message: 'Route to update a poll with id ' 
@@ -72,10 +75,33 @@ router.patch('/:id', function(req, res, next) {
   });
 });
 
-router.delete('/:id', function(req, res, next) {
-  res.status(200).json({
-    message: 'Route to delete a poll with id ' + req.params.id
-  });
+// Todo: validate id parameter
+router.delete('/:pollId', function(req, res, next) {
+  Poll.findById(req.params.pollId, function(err, poll) {
+      if (err) {
+        return res.status(500).json({
+          title: 'An error ocurred: Was not able to retrieve this poll'
+        });
+      }
+      if (!poll) {
+        return res.status(500).json({
+          title: 'An error occurred: No such poll'
+        });
+      }
+      poll.remove(function(err, result) {
+//        if (err) {
+          return res.status(500).json({
+            title: 'An error occurred: Was not able to delete this poll'
+          });
+  /*      }
+        else {
+          res.status(200).json({
+            message: 'Deletion of poll was successful',
+            response: poll
+          });
+        }*/
+      });
+    })
 });
 
 module.exports = router;
