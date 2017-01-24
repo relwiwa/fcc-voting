@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+
+import { AuthenticationService } from '../../user/authentication.service';
 
 @Component({
   selector: 'app-header',
@@ -6,12 +8,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-header.component.css']
 })
 
-export class AppHeaderComponent implements OnInit {
-  appTitle = "Decisions, decisions";
+export class AppHeaderComponent {
+  private appTitle: string;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor(private authService: AuthenticationService) {
+    this.appTitle = 'Decisions, decisions';
   }
 
 }

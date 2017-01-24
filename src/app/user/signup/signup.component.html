@@ -1,10 +1,19 @@
 <div class="col col-xs-12 col-sm-10 col-sm-offset-1">
-  <div class="row">
-    <h2 class="col col-xs-12">Signup</h2>
-  </div>
-  <div *ngIf="!submitted" class="row panel panel-info">
-    <div class="col col-xs-12 panel-heading">Enter all of the details below and signup for Decisions, decisions.</div>
-    <div class="col col-xs-12 panel-body">By signing up you can create your own polls. Like this, people around the globe can help you in making decisions and come up with new options you had not thought about before!</div>
+  <div [ngClass]="{'panel-info': (signupSuccess === null), 'panel-success': (signupSuccess === true), 'panel-warning': (signupSuccess === false), 'panel': true}">
+    <div class="panel-heading">Signup</div>
+    <div *ngIf="!submitted" class="panel-body">
+      <p>Enter all of the details below and signup for Decisions, decisions.</p>
+      <p>By signing up you can create your own polls. Like this, people around the globe can help you in making decisions and come up with new options you had not thought about before!</p>
+    </div>
+    <div *ngIf="submitted && signupSuccess === null" class="panel-body">
+      <p>The following information was sent to the server to sign you up. Waiting for response from server</p>
+    </div>
+    <div *ngIf="signupSuccess === true" class="panel-body">
+      <p>You were successfully signed up. Proceed to <a [routerLink]="['/signin']">Signin</a></p>
+    </div>
+    <div *ngIf="signupSuccess === false" class="panel-body">
+      <p>There was a problem signing you up with the following information. Please <a (click)="reeditForm()">change the information</a> and try again or contact our support.</p>
+    </div>
   </div>
 </div>
 <div *ngIf="!submitted" class="col col-xs-12 col-sm-10 col-sm-offset-1">
@@ -64,30 +73,23 @@
   </form>
 </div>
 
-<div *ngIf="submitted" [ngClass]="{'panel-default': (submitted && signupSuccess === null), 'panel-success': (submitted && signupSuccess === true), 'panel-warning': (submitted && signupSuccess === false), 'panel': true, 'col': true, 'col-xs-12': true, 'col-sm-10': true, 'col-sm-offset-1': true}">
-  <div *ngIf="signupSuccess === null" class="row panel-heading">
-    <div class="col col-xs-12">The following information was sent to the server to sign you up. Waiting for response from server</div>
-  </div>
-  <div *ngIf="signupSuccess === true" class="row panel-heading">
-    <div class="col col-xs-12">You were successfully signed up. Proceed to <a [routerLink]="['/signin']">Signin</a></div>
-  </div>
-  <div *ngIf="signupSuccess === false" class="row panel-heading">
-    <div class="col col-xs-12">There was a problem signing you up with the following information. Please <a (click)="reeditForm()">change the information</a> and try again or contact our support.</div>
-  </div>
-  <div class="row panel-body">
-    <div class="col col-xs-12 col-sm-3">First Name</div>
-    <div class="col col-xs-12 col-sm-9">{{signupForm.value.firstName}}</div>
-  </div>
-  <div class="row panel-body">
-    <div class="col col-xs-12 col-sm-3">Last Name</div>
-    <div class="col col-xs-12 col-sm-9">{{signupForm.value.lastName}}</div>
-  </div>
-  <div class="row panel-body">
-    <div class="col col-xs-12 col-sm-3">Email</div>
-    <div class="col col-xs-12 col-sm-9">{{signupForm.value.email}}</div>
-  </div>
-  <div class="row panel-body">
-    <div class="col col-xs-12 col-sm-3">Password</div>
-    <div class="col col-xs-12 col-sm-9">(hidden)</div>
+<div *ngIf="submitted" class="col col-xs-12 col-sm-10 col-sm-offset-1">
+  <div class="panel panel-default">
+    <div class="row panel-body">
+      <div class="col col-xs-12 col-sm-3">First Name</div>
+      <div class="col col-xs-12 col-sm-9">{{signupForm.value.firstName}}</div>
+    </div>
+    <div class="row panel-body">
+      <div class="col col-xs-12 col-sm-3">Last Name</div>
+      <div class="col col-xs-12 col-sm-9">{{signupForm.value.lastName}}</div>
+    </div>
+    <div class="row panel-body">
+      <div class="col col-xs-12 col-sm-3">Email</div>
+      <div class="col col-xs-12 col-sm-9">{{signupForm.value.email}}</div>
+    </div>
+    <div class="row panel-body">
+      <div class="col col-xs-12 col-sm-3">Password</div>
+      <div class="col col-xs-12 col-sm-9">(hidden)</div>
+    </div>
   </div>
 </div>

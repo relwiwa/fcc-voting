@@ -1,3 +1,52 @@
-<p>
-  signin works!
-</p>
+<div class="col col-xs-12 col-sm-10 col-sm-offset-1">
+  <div class="panel panel-info">
+    <div class="panel-heading">Signin</div>
+    <div *ngIf="!submitted && !errorMessage" class="panel-body">
+      <p>Signin below to create and manage your own polls.</p>
+      <p>If you have no account yet, <a [routerLink]="['/signup']">sign up</a>.</p>
+    </div>
+    <div *ngIf="submitted && !errorMessage" class="panel-body">
+      <p>Sending singin data to server.</p>
+      <p>Please wait</p>
+    </div>
+    <div *ngIf="!submitted && errorMessage" class="panel-body">
+      <p>{{errorMessage}}</p>
+    </div>
+  </div>
+</div>
+<div *ngIf="!submitted" class="col col-xs-12 col-sm-10 col-sm-offset-1">
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control"
+        placeholder="Email Address">
+      <div [hidden]="signinForm.controls.email.valid || (signinForm.controls.email.pristine)"
+              class="alert alert-warning">Please enter your email address correctly</div>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control"
+        placeholder="Password">
+      <div [hidden]="signinForm.controls.password.valid || (signinForm.controls.password.pristine)"
+              class="alert alert-warning">Please enter a valid password</div>
+    </div>
+    <div class="form-group">
+      <button
+        type="submit"
+        [disabled]="signinForm.invalid"
+        class="btn btn-primary pull-right"
+      >Submit</button>
+      <button
+        type="button"
+        class="btn btn-warning pull-right"
+        (click)="resetForm()"
+      >Reset</button>
+    </div>
+  </form>
+</div>

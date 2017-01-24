@@ -4,10 +4,12 @@
   </div>
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav navbar-right">
-      <li routerLinkActive="active"><a [routerLink]="['/poll-creation']">Add Poll</a></li>
+      <li *ngIf="authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/poll-creation']">Add Poll</a></li>
       <li routerLinkActive="active"><a [routerLink]="['/polls']">All Polls</a></li>
-      <li routerLinkActive="active"><a>Login</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['/signup']">Signup</a></li>
+      <li *ngIf="authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/dashboard']">My Polls</a></li>
+      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/signin']">Signin</a></li>
+      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/signup']">Signup</a></li>
+      <li *ngIf="authService.isLoggedIn()"><a (click)="authService.logout()">Logout</a></li>
     </ul>
   </div>
 </nav>

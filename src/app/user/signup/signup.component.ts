@@ -13,9 +13,11 @@ import { User } from '../user.model';
 export class SignupComponent implements OnInit {
   private signupForm: FormGroup;
   private submitted: boolean;
-  private signupSuccess: boolean = null;
+  private signupSuccess: boolean;
 
   constructor(private authService: AuthenticationService) {
+    this.submitted = false;
+    this.signupSuccess = null;
   }
 
   // Email RegExp from http://emailregex.com
@@ -51,6 +53,7 @@ export class SignupComponent implements OnInit {
   }
 
   // todo: frontend encryption
+  // todo: replace signupSuccess with reference to promise
   onSubmit() {
     let that = this;
     let newUser = new User(

@@ -1,5 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 
+import { AuthenticationService } from './user/authentication.service';
+
 import { DashboardComponent } from './layout/dashboard/dashboard.component';
 
 import { PollCreationComponent } from './polls/poll-creation/poll-creation.component';
@@ -16,7 +18,8 @@ const APP_ROUTES: Routes = [
   { path: 'dashboard',
     component: DashboardComponent },
   { path: 'poll-creation',
-    component: PollCreationComponent },
+    component: PollCreationComponent,
+    canActivate: [AuthenticationService] },
   { path: 'polls',
     component: PollsComponent },
   { path: 'poll/:pollId',
