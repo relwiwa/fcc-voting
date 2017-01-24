@@ -1,3 +1,93 @@
-<p>
-  signup works!
-</p>
+<div class="col col-xs-12 col-sm-10 col-sm-offset-1">
+  <div class="row">
+    <h2 class="col col-xs-12">Signup</h2>
+  </div>
+  <div *ngIf="!submitted" class="row panel panel-info">
+    <div class="col col-xs-12 panel-heading">Enter all of the details below and signup for Decisions, decisions.</div>
+    <div class="col col-xs-12 panel-body">By signing up you can create your own polls. Like this, people around the globe can help you in making decisions and come up with new options you had not thought about before!</div>
+  </div>
+</div>
+<div *ngIf="!submitted" class="col col-xs-12 col-sm-10 col-sm-offset-1">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        formControlName="firstName"
+        class="form-control"
+        placeholder="First Name">
+      <div [hidden]="signupForm.controls.firstName.valid || (signupForm.controls.firstName.pristine)"
+              class="alert alert-warning">Please enter your first name</div>
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        formControlName="lastName"
+        class="form-control"
+        placeholder="Last Name">
+      <div [hidden]="signupForm.controls.lastName.valid || (signupForm.controls.lastName.pristine)"
+              class="alert alert-warning">Please enter your last name</div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="email"
+        formControlName="email"
+        class="form-control"
+        placeholder="Email Address">
+      <div [hidden]="signupForm.controls.email.valid || (signupForm.controls.email.pristine)"
+              class="alert alert-warning">Please enter a proper email address</div>
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        formControlName="password"
+        class="form-control"
+        placeholder="Password (at least 8 digits)">
+      <div [hidden]="signupForm.controls.password.valid || (signupForm.controls.password.pristine)"
+              class="alert alert-warning">Please enter password with at least 8 digits (mix letters and numbers)</div>
+    </div>
+    <div class="form-group">
+      <button
+        type="submit"
+        [disabled]="signupForm.invalid"
+        class="btn btn-primary pull-right"
+      >Submit</button>
+      <button
+        type="button"
+        class="btn btn-warning pull-right"
+        (click)="resetForm()"
+      >Reset</button>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="submitted" [ngClass]="{'panel-default': (submitted && signupSuccess === null), 'panel-success': (submitted && signupSuccess === true), 'panel-warning': (submitted && signupSuccess === false), 'panel': true, 'col': true, 'col-xs-12': true, 'col-sm-10': true, 'col-sm-offset-1': true}">
+  <div *ngIf="signupSuccess === null" class="row panel-heading">
+    <div class="col col-xs-12">The following information was sent to the server to sign you up. Waiting for response from server</div>
+  </div>
+  <div *ngIf="signupSuccess === true" class="row panel-heading">
+    <div class="col col-xs-12">You were successfully signed up. Proceed to <a [routerLink]="['/signin']">Signin</a></div>
+  </div>
+  <div *ngIf="signupSuccess === false" class="row panel-heading">
+    <div class="col col-xs-12">There was a problem signing you up with the following information. Please <a (click)="reeditForm()">change the information</a> and try again or contact our support.</div>
+  </div>
+  <div class="row panel-body">
+    <div class="col col-xs-12 col-sm-3">First Name</div>
+    <div class="col col-xs-12 col-sm-9">{{signupForm.value.firstName}}</div>
+  </div>
+  <div class="row panel-body">
+    <div class="col col-xs-12 col-sm-3">Last Name</div>
+    <div class="col col-xs-12 col-sm-9">{{signupForm.value.lastName}}</div>
+  </div>
+  <div class="row panel-body">
+    <div class="col col-xs-12 col-sm-3">Email</div>
+    <div class="col col-xs-12 col-sm-9">{{signupForm.value.email}}</div>
+  </div>
+  <div class="row panel-body">
+    <div class="col col-xs-12 col-sm-3">Password</div>
+    <div class="col col-xs-12 col-sm-9">(hidden)</div>
+  </div>
+</div>

@@ -38,7 +38,7 @@ router.get('/', function(req, res, next) {
     })
 });*/
 
-
+// todo: validate data in regard to mongodb injection
 router.post('/', function(req, res, next) {
   var options = [];
   for (var i = 0; i < req.body.options.length; i++) {

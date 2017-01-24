@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './layout/app-header/app-header.component';
 import { AuthenticationComponent } from './user/authentication/authentication.component';
+import { AuthenticationService } from './user/authentication.service';
 import { ErrorComponent } from './errors/error/error.component';
 import { LogoutComponent } from './user/logout/logout.component';
 import { PollCreationComponent } from './polls/poll-creation/poll-creation.component';
@@ -38,9 +39,11 @@ import { PollBackendService } from './polls/pollBackend.service';
     BrowserModule,
     FormsModule,
     HttpModule,
+    ReactiveFormsModule,
     routes
   ],
   providers: [
+    AuthenticationService,
     PollBackendService,
     PollStore
   ],

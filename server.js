@@ -27,9 +27,9 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // Parse POST data with bodyparser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
+/*app.use(bodyParser.urlencoded({
   extended: false
-}));
+}));*/
 
 // Ensure CORS works across different servers
 app.use(function (req, res, next) {
