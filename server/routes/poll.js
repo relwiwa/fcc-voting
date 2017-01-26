@@ -1,7 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+var jwt = require('jsonwebtoken');
+
 var Poll = require('../models/poll');
+var User = require('../models/user');
 
 router.get('/', function(req, res, next) {
   Poll.find()
@@ -11,13 +14,11 @@ router.get('/', function(req, res, next) {
           title: 'An error ocurred: Was not able to get polls'
         });
       }
-      else {
-        res.status(200).json({
-          message: 'Retrieval of polls was successful',
-          response: polls
-        });
-      }
-    })
+      res.status(200).json({
+        message: 'Retrieval of polls was successful',
+        response: polls
+      });
+    });
 });
 
 // Todo: validate id parameter
@@ -37,6 +38,17 @@ router.get('/', function(req, res, next) {
       }
     })
 });*/
+
+router.use('/', function(req, res, next) {
+  jwt.verify(req.query.token, process.env.JWT_SECRET, function(err, decoded) {
+    if (err) {
+      return res.status(401).json({
+        title: 'Not authenticated'
+      });
+    }
+    next();
+  });
+});
 
 // todo: validate data in regard to mongodb injection
 router.post('/', function(req, res, next) {

@@ -14,6 +14,7 @@ var app = express();
 
 // Mongoose
 mongoose.connect(process.env.MONGO_DATABASE);
+mongoose.Promise = global.Promise;
 
 // Routes
 var appRoutes = require('./server/routes/app');

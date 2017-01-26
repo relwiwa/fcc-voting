@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
+
 var bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
 
 var User = require('../models/user');
 
@@ -39,31 +41,35 @@ router.post('/signin', function(req, res, next) {
         message: 'An error occurred: Signin was not possible'
       });
     }
-    else if (!user) {
+    if (!user) {
       return res.status(401).json({
         message: 'Login failed due to invalid login credentials'
       });
     }
-    else {
-      bcrypt.compare(req.body.password, user.password, function(err, result) {
-        if (err || result === false) {
-          return res.status(401).json({
-            message: 'Login failed due to invalid login credentials'
-          });
-        }
-        else {
-          res.status(200).json({
-            message: 'Signin was successful',
-            response: {
-              token: 'token',
-              userId: user._id,
-              firstName: user.firstName,
-              lastName: user.lastName
-            }
-          });
+    bcrypt.compare(req.body.password, user.password, function(err, result) {
+      if (err || result === false) {
+        return res.status(401).json({
+          message: 'Login failed due to invalid login credentials'
+        });
+      }
+      var token = jwt.sign({
+        // todo: add more details like ip address, browser
+        user: user
+      },
+      // todo: create secret randomly and use HMAC from crypto module
+      process.env.JWT_SECRET, {
+        expiresIn: 7200
+      });
+      res.status(200).json({
+        message: 'Signin was successful',
+        response: {
+          token: token,
+          userId: user._id,
+          firstName: user.firstName,
+          lastName: user.lastName
         }
       });
-    }
+    });
   });
 });
 
