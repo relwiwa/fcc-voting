@@ -15,6 +15,10 @@ var schema = new Schema({
     type: String,
     required: true
   },
+  encRounds: {
+    type: Number,
+    required: true
+  },
   email: {
     type: String,
     required: true,

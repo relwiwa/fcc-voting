@@ -37,6 +37,7 @@ export class SigninComponent implements OnInit {
     this.signinForm.reset();
   }
 
+  // todo: user should be saved in authentication service
   onSubmit() {
     let that = this;
     let signinUser = new User(
@@ -47,6 +48,8 @@ export class SigninComponent implements OnInit {
     this.errorMessage = null;
     this.authService.signin(signinUser)
       .then(function(response) {
+        response = response.json();
+        response = response['response'];
         localStorage.setItem('token', response['token']);
         localStorage.setItem('userId', response['userId']);
         localStorage.setItem('firstName', response['firstName']);
