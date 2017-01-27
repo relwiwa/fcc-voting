@@ -58,26 +58,35 @@ router.post('/', function(req, res, next) {
       value: req.body.options[i]
     });
   }
-  var poll = new Poll({
+  var newPoll = new Poll({
     question: req.body.question,
     options: options,
-    creator: req.body.creatorId    
+    creator: req.body.creatorId
   });
-  poll.save(function(err, result) {
+  newPoll.save(function(err, poll) {
     if (err) {
       return res.status(500).json({
         title: 'An error ocurred: Was not able to save new poll'
       });
     }
-    else {
-      res.status(201).json({
-        message: 'New poll was added successfully',
-        response: result
-      });
-    }
+    User.findByIdAndUpdate(
+      req.body.creatorId,
+      { $push: { 'polls': poll._id } },
+      { new: true },
+      function (err, user) {
+        if (err || !user) {
+          return res.status(500).json({
+            title: 'An error ocurred. Was not able to add poll to user'
+          });
+        }
+        return res.status(201).json({
+          message: 'New poll was added successfully',
+          response: poll
+        });
+      }
+    );
   });
 });
-
 
 // Todo: validate id parameter
 router.patch('/:id', function(req, res, next) {

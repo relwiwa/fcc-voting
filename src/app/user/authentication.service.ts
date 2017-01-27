@@ -6,8 +6,12 @@ import { User } from './user.model';
 
 @Injectable()
 export class AuthenticationService implements CanActivate {
+  private signedInUser;
 
-  constructor(private http: Http, private router: Router) { }
+  // todo: check for existing token and verify whether its still valid
+  constructor(private http: Http, private router: Router) {
+    this.signedInUser = null;
+  }
 
   signup(user: User) {
     const body = JSON.stringify(user);
@@ -24,21 +28,41 @@ export class AuthenticationService implements CanActivate {
   }
 
   signin(user: User) {
+    let that = this;
     const body = JSON.stringify(user);
     const headers = {
       headers: new Headers ({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post(
+    return new Promise((resolve, reject) => {
+      that.http.post(
       'http://localhost:3000/user/signin',
       body,
       headers)
-      .toPromise();
+      .toPromise()
+      .then(function(response) {
+        response = response.json();
+        response = response['response'];
+        localStorage.setItem('token', response['token']);
+        that.signedInUser = new User(
+          user.email,
+          null,
+          response['firstName'],
+          response['lastName'],
+          response['userId']
+        );
+        resolve(that.signedInUser);
+      },
+      function(error) {
+        reject(error);
+      });
+    });
   }
 
   logout() {
     localStorage.clear();
+    this.signedInUser = null;
     this.router.navigateByUrl('/dashboard');
   }
 
@@ -52,8 +76,16 @@ export class AuthenticationService implements CanActivate {
     }
   }
 
+  // todo validation of token and retrieval of user data
   isLoggedIn() {
     return (localStorage.getItem('token') !== null);
+  }
+
+  getUserId() {
+    if (this.signedInUser !== null) {
+      return this.signedInUser.userId;
+    }
+    return null;
   }
 
 }

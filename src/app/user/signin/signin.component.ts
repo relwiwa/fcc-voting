@@ -28,7 +28,8 @@ export class SigninComponent implements OnInit {
       ]),
       password: new FormControl(null, [
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9]+$/)
+        Validators.pattern(/^[a-zA-Z0-9]+$/),
+        Validators.minLength(8)
       ])
     });
   }
@@ -48,12 +49,6 @@ export class SigninComponent implements OnInit {
     this.errorMessage = null;
     this.authService.signin(signinUser)
       .then(function(response) {
-        response = response.json();
-        response = response['response'];
-        localStorage.setItem('token', response['token']);
-        localStorage.setItem('userId', response['userId']);
-        localStorage.setItem('firstName', response['firstName']);
-        localStorage.setItem('lastName', response['lastName']);
         that.router.navigateByUrl('/dashboard');
       },
       function(error) {

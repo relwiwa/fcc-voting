@@ -16,7 +16,8 @@ export class PollBackendService {
   }
 
   createPoll(poll: Poll) {
-    const body = JSON.stringify(poll);
+    const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+       const body = JSON.stringify(poll);
     const headers = {
       headers: new Headers({
         'Content-Type': 'application/json'
@@ -24,7 +25,7 @@ export class PollBackendService {
     };
 
     return this.http.post(
-      'http://localhost:3000/poll',
+      'http://localhost:3000/poll' + token,
       body,
       headers)
       .toPromise();

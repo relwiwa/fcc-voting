@@ -1,36 +1,85 @@
-<div class="col-xs-12">
-  <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <div class="form-group">
-      <legend>Question</legend>
-      <input
-        type="text"
-        id="question"
-        class="form-control"
-        [ngModel]="poll.question"
-        name="question"
-        placeholder="Question"
-        required>
+<div class="col-xs-12 col-md-10 col-md-offset-1">
+  <div [ngClass]="{'panel-info': (errorMessage === null), 'panel-warning': (!submitted && (errorMessage !== null)), 'panel': true}">
+    <div class="panel-heading">Create new Poll</div>
+    <div *ngIf="!submitted && (errorMessage === null)" class="panel-body">
+      <p>Enter your question with at least two options below</p>
     </div>
-    <div class="form-group">
+    <div *ngIf="submitted && (errorMessage === null)" class="panel-body">
+      <p>Sending poll data to server</p>
+      <p>Please wait</p>
+    </div>
+    <div *ngIf="!submitted && (errorMessage !== null)" class="panel-body">
+      <p>{{errorMessage}}</p>
+      <p>Please try again or contact our support</p>
+    </div>
+  </div>
+</div>
+
+
+<div *ngIf="!submitted" class="col-xs-12 col-md-10 col-md-offset-1">
+  <form [formGroup]="pollForm" (ngSubmit)="onSubmit()">
+    <div class="form-group form-group-lg">
+      <legend>Question</legend>
+      <div class="input-group">
+        <span class="input-group-addon">?</span>
+        <input
+          type="text"
+          formControlName="question"
+          class="form-control"
+          placeholder="Question">
+      </div>
+      <div
+        class="alert alert-warning"
+        [hidden]="pollForm.controls.question.valid || (pollForm.controls.question.pristine)">Please enter your question (at least 10 characters; numbers, letters and commatas only).</div>
+    </div>
+
+    <div class="form-group form-group-lg">
       <fieldset>
         <legend>Options</legend>
-        <input
-          *ngFor="let option of poll.options; let i = index;"
-          type="text"
-          id="option{{i}}"
-          class="form-control"
-          [ngModel]="option"
-          name="option{{i}}"
-          placeholder="Option {{i + 1}}"
-          [attr.required]="i < 2 ? '' : null">
+        <div formArrayName="options">
+          <div *ngFor="let option of pollForm.get('options').controls; let i = index;">
+            <div class="input-group">
+              <span class="input-group-addon">{{i + 1}}</span>
+              <input
+                type="text"
+                formControlName="{{i}}"
+                class="form-control"
+                placeholder="Option {{i + 1}}">
+                <span class="input-group-btn">
+                  <button
+                    type="button"
+                    (click)="deleteOption(i)"
+                    [disabled]="pollForm.get('options').controls.length <= 2"
+                    class="btn btn-lg btn-warning">Delete</button>
+                  </span>
+            </div>
+            <div
+              class="alert alert-warning"
+              [hidden]="option.valid || (option.pristine)">Please enter a valid option<span *ngIf="pollForm.get('options').controls"> or delete it</span>.</div>
+          </div>
+        </div>
       </fieldset>
     </div>
     <button
       type="button"
-      class="btn btn-warning"
+      class="btn btn-lg btn-warning"
       (click)="addOption()">Add Option</button>
     <button
-      class="btn btn-primary"
+      [disabled]="!pollForm.valid"
+      class="btn btn-lg btn-primary pull-right"
       type="submit">Save Poll</button>
   </form>
+</div>
+
+<div *ngIf="submitted" class="col col-xs-12 col-md-10 col-md-offset-1">
+  <div class="panel panel-default">
+    <div class="row panel-body">
+      <div class="col col-xs-12">Question:</div>
+      <div class="col col-xs-12">{{ pollForm.value.question }}</div>
+    </div>
+    <div *ngFor="let option of pollForm.get('options').controls; let i = index;" class="row panel-body">
+      <div class="col col-xs-12">Option {{ i + 1}}:</div>
+      <div class="col col-xs-12">{{ option.value }}</div>
+    </div>
+  </div>
 </div>

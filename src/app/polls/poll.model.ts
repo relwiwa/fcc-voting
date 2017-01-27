@@ -4,8 +4,8 @@ export class Poll {
   constructor(
     public question: string,
     public options: string[],
-    public created: Date,
     public creatorId: string,
+    public created?: Date,
     public pollId?: string
   ) {}
 }

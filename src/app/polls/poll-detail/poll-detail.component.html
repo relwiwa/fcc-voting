@@ -4,16 +4,21 @@
 <div class="row" *ngIf="errorMessage !== null">
   <div class="col col-xs-12 alert alert-danger">{{errorMessage}}</div>
 </div>
-<div *ngIf="poll !== null">
-  <div class="row panel panel-default">
-    <div class="col col-xs-12 panel-body">{{poll.question}}</div>
-    <div class="col col-xs-12 panel-footer">
-      <div *ngFor="let option of poll.options" class="row">
-        <div class="col col-xs-12">{{option.value}}</div>
-      </div>
-    </div>
+
+<div *ngIf="poll !== null" class="col-xs-12 col-md-10 col-md-offset-1">
+  <div class="panel panel-info">
+    <div class="panel-heading">{{poll.question}}</div>
   </div>
-  <div class="col col-xs-12">
-    <button class="btn btn-danger pull-right" (click)="deletePoll()">Delete this poll</button>
+  <div class="panel panel-warning">
+    <ul class="list-group">
+      <li *ngFor="let option of poll.options" class="list-group-item">
+        <span class="badge">14</span>
+        {{option.value}}
+      </li>
+    </ul>
+  </div>
+  <div>
+    <button class="btn btn-lg btn-danger pull-right" (click)="deletePoll()">Delete this poll</button>
+    <button class="btn btn-lg btn-warning pull-right" (click)="deletePoll()">Edit this poll</button>
   </div>
 </div>
