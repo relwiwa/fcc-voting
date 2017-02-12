@@ -3,6 +3,8 @@ var router = express.Router();
 
 var jwt = require('jsonwebtoken');
 
+var validation = require('../utils/validation');
+
 var Poll = require('../models/poll');
 var User = require('../models/user');
 
@@ -38,6 +40,55 @@ router.get('/', function(req, res, next) {
       }
     })
 });*/
+
+// Respond to CORS-preflight options request
+router.options('*', function(req, res, next) {
+  res.sendStatus(200);
+});
+
+// Route to submit a vote via patch request
+router.patch('/:pollId', function(req, res, next) {
+  var inputValidation = null;
+  var voterObject = {};
+  var pollId = req.params.pollId;
+  var optionId = req.body.optionId;
+  var voterId = req.body.voterId;
+  if (voterId === null) {
+    inputValidation = validation.objectIds(pollId, optionId);
+  }
+  else {
+    inputValidation = validation.objectIds(pollId, optionId, voterId);
+    voterObject.voterId = voterId;
+    voterObject.optionId = optionId
+  }
+  // As route is open to public, validate input
+  if (inputValidation === true) {
+    // server-side check missing to insure creator !== voter
+    Poll.findOneAndUpdate(
+      { '_id': pollId,
+        'options._id': optionId },
+      { $push: { 'voters': voterObject },
+        $inc: { 'options.$.votes': 1 } },
+      { new: true },
+      function(err, poll) {
+        if (err || !poll) {
+          return res.status(500).json({
+            title: 'An error occurred, the vote was not saved.'
+          });
+        }
+        return res.status(200).json({
+          message: 'Vote was successfully saved',
+          poll: poll
+        });
+      }
+    );
+  }
+  else {
+    return res.status(500).json({
+      title: 'The input provided was not valid'
+    });
+  }
+});
 
 router.use('/', function(req, res, next) {
   jwt.verify(req.query.token, process.env.JWT_SECRET, function(err, decoded) {
@@ -85,14 +136,6 @@ router.post('/', function(req, res, next) {
         });
       }
     );
-  });
-});
-
-// Todo: validate id parameter
-router.patch('/:id', function(req, res, next) {
-  res.status(200).json({
-    message: 'Route to update a poll with id ' 
-    + req.params.id
   });
 });
 

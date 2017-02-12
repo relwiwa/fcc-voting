@@ -8,7 +8,23 @@ var Option = new Schema({
   },
   votes: {
     type: Number,
-    default: 0
+    required: true,
+    default: 0,
+  }
+});
+
+var Voter = new Schema({
+  voterId: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  optionId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Option'
+  },
+  voteDate: {
+    type: Date,
+    default: Date.now()
   }
 });
 
@@ -18,6 +34,7 @@ var schema = new Schema({
     required: true
   },
   options: [Option],
+  voters: [Voter],
   created: {
     type: Date,
     default: Date.now()

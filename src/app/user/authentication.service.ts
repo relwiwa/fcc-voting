@@ -50,8 +50,10 @@ export class AuthenticationService implements CanActivate {
           null,
           response['firstName'],
           response['lastName'],
-          response['userId']
+          response['userId'],
+          response['polls']
         );
+        console.log(that.signedInUser);
         resolve(that.signedInUser);
       },
       function(error) {
@@ -67,7 +69,7 @@ export class AuthenticationService implements CanActivate {
   }
 
   canActivate() {
-    if (this.isLoggedIn()) {
+    if (this.isSignedIn()) {
       return true;
     }
     else {
@@ -77,8 +79,8 @@ export class AuthenticationService implements CanActivate {
   }
 
   // todo validation of token and retrieval of user data
-  isLoggedIn() {
-    return (localStorage.getItem('token') !== null);
+  isSignedIn() {
+    return (localStorage.getItem('token') !== null && this.signedInUser !== null);
   }
 
   getUserId() {

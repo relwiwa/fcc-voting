@@ -18,7 +18,9 @@ export class PollCreationComponent implements OnInit {
   private submitted: boolean;
   private errorMessage: string;
 
-  constructor(private authService: AuthenticationService, private pollService: PollStore, private router: Router) {
+  constructor(private authService: AuthenticationService,
+              private pollService: PollStore,
+              private router: Router) {
     this.submitted = false;
     this.errorMessage = null;
   }
@@ -65,6 +67,7 @@ export class PollCreationComponent implements OnInit {
     let newPoll = new Poll(
       this.pollForm.value.question,
       this.pollForm.get('options').value,
+      [],
       this.authService.getUserId()
     );
     this.submitted = true;

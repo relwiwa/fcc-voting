@@ -67,7 +67,8 @@ router.post('/signin', function(req, res, next) {
           userId: user._id,
           firstName: user.firstName,
           lastName: user.lastName,
-          email: user.email
+          email: user.email,
+          polls: user.polls
         }
       });
     });

@@ -1,3 +1,11 @@
 button {
   margin-left:20px;
 }
+
+.radio {
+  text-align:left;
+}
+
+input {
+  display:none;
+}

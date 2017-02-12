@@ -9,6 +9,7 @@ import { PollBackendService } from './pollBackend.service';
 export class PollStore {
   private polls: Poll[] = null;
   private promise = null;
+  private currentPoll: Poll;
 
   constructor(private pollBackendService: PollBackendService) {  }
 
@@ -24,8 +25,9 @@ export class PollStore {
               let newPoll = new Poll(
                 poll.question,
                 poll.options,
-                poll.created,
+                poll.voter,
                 poll.creator,
+                poll.created,
                 poll._id
               );
               polls.push(newPoll);
@@ -46,6 +48,29 @@ export class PollStore {
     }
   }
 
+  public vote(pollId, vote) {
+    let that = this;
+    return new Promise((resolve, reject) => {
+      that.pollBackendService.vote(pollId, vote)
+        .then(function(response) {
+          let poll = response.json();
+          poll = poll.poll;
+          that.currentPoll = new Poll(
+            poll.question,
+            poll.options,
+            poll.voter,
+            poll.creator,
+            poll.created,
+            poll._id
+          );
+          resolve(that.currentPoll);
+        },
+        function(error) {
+          reject(error);
+        });
+    });
+  }
+
   public getPollById(pollId: string) {
     let that = this;
     return new Promise((resolve, reject) => {
@@ -56,7 +81,7 @@ export class PollStore {
           },
           function(error) {
             reject({
-              'message': 'Error in backend, poll was not added'
+              'message': 'Error in backend, poll was not found'
             });
           });
       }
@@ -67,7 +92,7 @@ export class PollStore {
           },
           function(error) {
             reject({
-              'message': 'Error in backend, poll was not added'
+              'message': 'Error in backend, poll was not found'
             });
           });
       }
@@ -90,6 +115,7 @@ export class PollStore {
                 let newPoll = new Poll(
                   response['question'],
                   response['options'],
+                  response['voter'],
                   response['created'],
                   response['creator'],
                   response['_id']

@@ -1,24 +1,32 @@
-<div class="row" *ngIf="message !== null">
-  <div class="col col-xs-12 alert alert-info">{{message}}</div>
-</div>
-<div class="row" *ngIf="errorMessage !== null">
-  <div class="col col-xs-12 alert alert-danger">{{errorMessage}}</div>
-</div>
-
-<div *ngIf="poll !== null" class="col-xs-12 col-md-10 col-md-offset-1">
-  <div class="panel panel-info">
-    <div class="panel-heading">{{poll.question}}</div>
+<div *ngIf="!alreadyVoted && !submitted && poll !== null" class="col-xs-12 col-md-10 col-md-offset-1">
+  <div [ngClass]="{'panel-info': (errorMessage === null), 'panel-warning': (!submitted && (errorMessage !== null)), 'panel': true}">
+    <div class="panel-heading">{{poll.question}}?</div>
+    <div *ngIf="poll === null && errorMessage === null" class="panel-body">
+      <p>Retrieving poll data from server.</p>
+    </div>
+    <div *ngIf="!submitted && (errorMessage === null)" class="panel-body">
+      <p>Chose one of the options below and submit your vote.</p>
+    </div>
+    <div *ngIf="submitted && (errorMessage === null)" class="panel-body">
+      <p>Sending your vote to server</p>
+      <p>Please wait</p>
+    </div>
+    <div *ngIf="!submitted && (errorMessage !== null)" class="panel-body">
+      <p>{{errorMessage}}</p>
+      <p>Please try again or contact our support</p>
+    </div>
+    <div class="list-group">
+      <a
+        *ngFor="let option of poll.options; let i = index;"
+        (click)="onClick($event)"
+        href="#"
+        [attr.id]="option['_id']"
+        [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
+      >{{option.value}}</a>
+    </div>
   </div>
-  <div class="panel panel-warning">
-    <ul class="list-group">
-      <li *ngFor="let option of poll.options" class="list-group-item">
-        <span class="badge">14</span>
-        {{option.value}}
-      </li>
-    </ul>
-  </div>
-  <div>
-    <button class="btn btn-lg btn-danger pull-right" (click)="deletePoll()">Delete this poll</button>
-    <button class="btn btn-lg btn-warning pull-right" (click)="deletePoll()">Edit this poll</button>
-  </div>
+  <button
+    [disabled]="!optionSelectedId"
+    class="btn btn-lg btn-primary pull-right"
+    (click)="onSubmit()">Submit Vote</button>
 </div>

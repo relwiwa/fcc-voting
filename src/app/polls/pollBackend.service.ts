@@ -10,14 +10,14 @@ export class PollBackendService {
 
   constructor(private http: Http) { }
 
-  getAllPolls() {
+  public getAllPolls() {
     return this.http.get('http://localhost:3000/poll')
       .toPromise();
   }
 
-  createPoll(poll: Poll) {
+  public createPoll(poll: Poll) {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-       const body = JSON.stringify(poll);
+    const body = JSON.stringify(poll);
     const headers = {
       headers: new Headers({
         'Content-Type': 'application/json'
@@ -31,8 +31,23 @@ export class PollBackendService {
       .toPromise();
   }
 
-  deletePoll(pollId: string) {
+  public deletePoll(pollId: string) {
     return this.http.delete('http://localhost:3000/poll/' + pollId)
+      .toPromise();
+  }
+
+  public vote(pollId, vote) {
+    const body = JSON.stringify(vote);
+    const headers = {
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.patch(
+      'http://localhost:3000/poll/' + pollId,
+      body,
+      headers)
       .toPromise();
   }
 

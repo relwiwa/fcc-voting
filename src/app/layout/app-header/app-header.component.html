@@ -4,12 +4,12 @@
   </div>
   <div class="collapse navbar-collapse">
     <ul class="nav navbar-nav navbar-right">
-      <li *ngIf="authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/poll-creation']">Add Poll</a></li>
+      <li *ngIf="authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/poll-creation']">Add Poll</a></li>
       <li routerLinkActive="active"><a [routerLink]="['/polls']">All Polls</a></li>
-      <li *ngIf="authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/dashboard']">My Polls</a></li>
-      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/signin']">Signin</a></li>
-      <li *ngIf="!authService.isLoggedIn()" routerLinkActive="active"><a [routerLink]="['/signup']">Signup</a></li>
-      <li *ngIf="authService.isLoggedIn()"><a (click)="authService.logout()">Logout</a></li>
+      <li *ngIf="authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/dashboard']">My Polls</a></li>
+      <li *ngIf="!authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/signin']">Signin</a></li>
+      <li *ngIf="!authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/signup']">Signup</a></li>
+      <li *ngIf="authService.isSignedIn()"><a (click)="authService.logout()">Logout</a></li>
     </ul>
   </div>
 </nav>
