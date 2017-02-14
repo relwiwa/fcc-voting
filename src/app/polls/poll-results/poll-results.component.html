@@ -1,0 +1,20 @@
+<div class="panel panel-info">
+  <div class="panel-heading">{{poll.question}}?</div>
+  <ul class="list-group">
+    <li
+      *ngFor="let option of poll.options; let i = index;"
+      [attr.id]="option['_id']"
+      [ngClass]="{'list-group-item': true}">
+      {{option.value}}
+      <span class="label label-info pull-right">{{option.votes}}</span>
+    </li>
+  </ul>
+</div>
+<button
+  *ngIf="userOwnsPoll"
+  class="btn btn-lg btn-danger"
+  (click)="deletePoll()">Delete Poll</button>
+<button
+  *ngIf="userOwnsPoll"
+  class="btn btn-lg btn-warning pull-right"
+  (click)="editPoll()">Edit Poll</button>

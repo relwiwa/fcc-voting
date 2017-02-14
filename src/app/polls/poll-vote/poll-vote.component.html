@@ -1,0 +1,29 @@
+<div Class="panel panel-info">
+  <div class="panel-heading">{{poll.question}}?</div>
+  <div class="panel-body">{{statusMessage}}</div>
+  <div *ngIf="!alreadyVoted" class="list-group">
+    <button
+      *ngFor="let option of poll.options; let i = index;"
+      (click)="onChoseOption($event)"
+      [attr.id]="option['_id']"
+      [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
+    >{{option.value}}</button>
+  </div>
+  <div *ngIf="alreadyVoted" class="list-group">
+    <li
+      *ngFor="let option of poll.options; let i = index;"
+      [attr.id]="option['_id']"
+      [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
+    >{{option.value}}</li>
+  </div>
+</div>
+<button
+  *ngIf="!alreadyVoted"
+  [disabled]="!optionSelectedId"
+  class="btn btn-lg btn-primary pull-right"
+  (click)="onSubmit()">Submit Vote</button>
+<button
+  *ngIf="alreadyVoted"
+  [disabled]="!optionSelectedId"
+  class="btn btn-lg btn-success pull-right"
+  (click)="showResults.emit()">Show Results</button>

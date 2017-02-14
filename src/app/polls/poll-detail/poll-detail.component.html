@@ -1,32 +1,10 @@
-<div *ngIf="!alreadyVoted && !submitted && poll !== null" class="col-xs-12 col-md-10 col-md-offset-1">
-  <div [ngClass]="{'panel-info': (errorMessage === null), 'panel-warning': (!submitted && (errorMessage !== null)), 'panel': true}">
-    <div class="panel-heading">{{poll.question}}?</div>
-    <div *ngIf="poll === null && errorMessage === null" class="panel-body">
-      <p>Retrieving poll data from server.</p>
-    </div>
-    <div *ngIf="!submitted && (errorMessage === null)" class="panel-body">
-      <p>Chose one of the options below and submit your vote.</p>
-    </div>
-    <div *ngIf="submitted && (errorMessage === null)" class="panel-body">
-      <p>Sending your vote to server</p>
-      <p>Please wait</p>
-    </div>
-    <div *ngIf="!submitted && (errorMessage !== null)" class="panel-body">
-      <p>{{errorMessage}}</p>
-      <p>Please try again or contact our support</p>
-    </div>
-    <div class="list-group">
-      <a
-        *ngFor="let option of poll.options; let i = index;"
-        (click)="onClick($event)"
-        href="#"
-        [attr.id]="option['_id']"
-        [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
-      >{{option.value}}</a>
-    </div>
-  </div>
-  <button
-    [disabled]="!optionSelectedId"
-    class="btn btn-lg btn-primary pull-right"
-    (click)="onSubmit()">Submit Vote</button>
+<div *ngIf="poll !== null" class="col-xs-12 col-md-10 col-md-offset-1">
+  <poll-vote
+    *ngIf="!showResults"
+    (showResults)="showResults = true"
+    [poll]="poll"></poll-vote>
+  <poll-results
+    *ngIf="showResults"
+    [poll]="poll"
+    [userOwnsPoll]="userOwnsPoll"></poll-results>
 </div>

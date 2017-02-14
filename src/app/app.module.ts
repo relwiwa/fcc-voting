@@ -19,6 +19,8 @@ import { DashboardComponent } from './layout/dashboard/dashboard.component';
 import { PollsListComponent } from './polls/polls-list/polls-list.component';
 import { PollStore } from './polls/pollStore.service';
 import { PollBackendService } from './polls/pollBackend.service';
+import { PollResultsComponent } from './polls/poll-results/poll-results.component';
+import { PollVoteComponent } from './polls/poll-vote/poll-vote.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { PollBackendService } from './polls/pollBackend.service';
     SigninComponent,
     SignupComponent,
     DashboardComponent,
-    PollsListComponent
+    PollsListComponent,
+    PollResultsComponent,
+    PollVoteComponent
   ],
   imports: [
     BrowserModule,

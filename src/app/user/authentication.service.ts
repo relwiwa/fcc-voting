@@ -53,7 +53,6 @@ export class AuthenticationService implements CanActivate {
           response['userId'],
           response['polls']
         );
-        console.log(that.signedInUser);
         resolve(that.signedInUser);
       },
       function(error) {
