@@ -14,8 +14,9 @@ export class PollVoteComponent implements OnInit {
   @Input() poll: Poll;
   @Output() showResults: EventEmitter<void> = new EventEmitter<void>();
 
-  private optionSelectedId: number;
+  private optionSelectedId: string;
   private voterId: string;
+  private voteDate: Date;
   private alreadyVoted: boolean;
   private submitted: boolean;
 
@@ -30,31 +31,74 @@ export class PollVoteComponent implements OnInit {
     this.setupAlreadyVoted();
   }
 
-  // todo cookie-based check
   private setupAlreadyVoted() {
     if (this.poll.voters) {
+      let voteInLS = this.checkVoteInLocalStorage(this.poll.pollId);
       if (this.authService.isSignedIn() === true) {
         for (let i = 0; i < this.poll.voters.length; i++) {
           if (this.poll.voters[i]['voterId'] === this.voterId) {
+            let voteDate = this.extractVoteDateAndTime(voteInLS['voteDate']);
             this.alreadyVoted = true;
             this.optionSelectedId = this.poll.voters[i]['optionId'];
-            this.statusMessage = 'You already cast a vote on this poll on ' + this.poll.voters[i]['voteDate'];
+            this.statusMessage = 'You already voted on this poll on ' + + voteDate.date + ' at ' + voteDate.time;
             break;
           }
         }
       }
-      /* to do: check for vote stored in cookie for unauthorized user
-      else if () {
-      }*/
+      else if (voteInLS !== null) {
+        let voteDate = this.extractVoteDateAndTime(voteInLS['voteDate']);
+        this.alreadyVoted = true;
+        this.optionSelectedId = voteInLS['vote'];
+        this.statusMessage = 'You or someone on this computer already voted on this poll on ' + voteDate.date + ' at ' + voteDate.time;
+      }
       else {
         this.alreadyVoted = false;
-        this.statusMessage = 'Chose one of the options below and submit your vote';
+        this.statusMessage = 'Choose one of the options below and submit your vote';
       }
     }
     else {
       this.alreadyVoted = false;
-      this.statusMessage = 'Chose one of the options below and submit your vote';
+      this.statusMessage = 'Choose one of the options below and submit your vote';
     }
+  }
+
+  private saveVoteToLocalStorage(pollId, vote) {
+    let voteDetails = {
+      vote: vote.optionId,
+      voteDate: vote.voteDate
+    }
+    localStorage.setItem(pollId, JSON.stringify(voteDetails));
+  }
+
+  private checkVoteInLocalStorage(pollId) {
+    let voteInLS = localStorage.getItem(pollId);
+    if (voteInLS === null) {
+      return null;      
+    }
+    else {
+      return JSON.parse(voteInLS);
+    }
+  }
+
+  private extractVoteDateAndTime(dateString) {
+    function addPendingZero(str) {
+      if ((str + '').length === 1) {
+        str = '0' + str;
+      }
+      return str;
+    }
+    let result = {
+      date: '',
+      time: ''
+    };
+    let date = new Date(dateString);
+    result.date += date.getFullYear() + '-';
+    result.date += addPendingZero(date.getMonth()) + '-';
+    result.date += addPendingZero(date.getDate());
+    result.time += addPendingZero(date.getHours()) + ':';
+    result.time += addPendingZero(date.getMinutes()) + ':';
+    result.time += addPendingZero(date.getSeconds());
+    return result;
   }
 
   onChoseOption(event) {
@@ -63,9 +107,11 @@ export class PollVoteComponent implements OnInit {
 
   onSubmit() {
     let that = this;
+    this.voteDate = new Date();
     let vote = {
       optionId: this.optionSelectedId,
-      voterId: this.voterId
+      voterId: this.voterId,
+      voteDate: this.voteDate
     };
     this.submitted = true;
     this.statusMessage = 'Your vote is being sent to the server'
@@ -74,7 +120,7 @@ export class PollVoteComponent implements OnInit {
       that.poll = poll;
       that.alreadyVoted = true;
       that.statusMessage = 'Your vote was successfully saved. Thank you for voting!'
-      // todo: set cookie with vote info
+      that.saveVoteToLocalStorage(poll.pollId, vote);
     },
     function(error) {
       that.statusMessage = 'An error happened, so your vote was not saved. Please try again or contact our support';      
