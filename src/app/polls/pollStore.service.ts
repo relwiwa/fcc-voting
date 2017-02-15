@@ -116,8 +116,8 @@ export class PollStore {
                   response['question'],
                   response['options'],
                   response['voter'],
-                  response['created'],
                   response['creator'],
+                  response['created'],
                   response['_id']
                 );
                 that.polls.push(newPoll);

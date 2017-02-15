@@ -23,11 +23,7 @@ var schema = new Schema({
     type: String,
     required: true,
     unique: true
-  },
-  polls: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Poll'
-  }]
+  }
 });
 
 schema.plugin(mongooseUniqueValidator);

@@ -5,7 +5,6 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AppHeaderComponent } from './layout/app-header/app-header.component';
-import { AuthenticationComponent } from './user/authentication/authentication.component';
 import { AuthenticationService } from './user/authentication.service';
 import { ErrorComponent } from './errors/error/error.component';
 import { LogoutComponent } from './user/logout/logout.component';
@@ -26,7 +25,6 @@ import { PollVoteComponent } from './polls/poll-vote/poll-vote.component';
   declarations: [
     AppComponent,
     AppHeaderComponent,
-    AuthenticationComponent,
     ErrorComponent,
     LogoutComponent,
     PollCreationComponent,

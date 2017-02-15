@@ -101,6 +101,8 @@ router.use('/', function(req, res, next) {
   });
 });
 
+
+
 // todo: validate data in regard to mongodb injection
 router.post('/', function(req, res, next) {
   var options = [];
@@ -120,22 +122,10 @@ router.post('/', function(req, res, next) {
         title: 'An error ocurred: Was not able to save new poll'
       });
     }
-    User.findByIdAndUpdate(
-      req.body.creatorId,
-      { $push: { 'polls': poll._id } },
-      { new: true },
-      function (err, user) {
-        if (err || !user) {
-          return res.status(500).json({
-            title: 'An error ocurred. Was not able to add poll to user'
-          });
-        }
-        return res.status(201).json({
-          message: 'New poll was added successfully',
-          response: poll
-        });
-      }
-    );
+    return res.status(201).json({
+      message: 'New poll was added successfully',
+      response: poll
+    });
   });
 });
 
