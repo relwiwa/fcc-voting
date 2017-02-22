@@ -33,17 +33,22 @@ export class PollVoteComponent implements OnInit {
   }
 
   private setupAlreadyVoted() {
+    console.log('setup already voted', this.poll);
     if (this.poll.voters) {
       let voteInLS = this.checkVoteInLocalStorage(this.poll.pollId);
       if (this.authService.isSignedIn() === true) {
+        console.log(this.poll.voters, this.voterId);
         for (let i = 0; i < this.poll.voters.length; i++) {
           if (this.poll.voters[i]['voterId'] === this.voterId) {
-            let voteDate = this.extractVoteDateAndTime(voteInLS['voteDate']);
+            let voteDate = this.extractVoteDateAndTime(this.poll.voters[i]['voteDate']);
             this.alreadyVoted = true;
             this.optionSelectedId = this.poll.voters[i]['optionId'];
-            this.statusMessage = 'You already voted on this poll on ' + + voteDate.date + ' at ' + voteDate.time;
+            this.statusMessage = 'You already voted on this poll on ' + voteDate.date + ' at ' + voteDate.time;
             break;
-          }
+          }          
+        }
+        if (!this.alreadyVoted) {
+          this.statusMessage = 'Choose one of the options below and submit your vote';
         }
       }
       else if (voteInLS !== null) {
@@ -121,7 +126,9 @@ export class PollVoteComponent implements OnInit {
       that.poll = poll;
       that.alreadyVoted = true;
       that.statusMessage = 'Your vote was successfully saved. Thank you for voting!'
-      that.saveVoteToLocalStorage(poll.pollId, vote);
+      if (that.authService.isSignedIn() === false) {
+        that.saveVoteToLocalStorage(poll.pollId, vote);
+      }
       that.voted.emit(that.poll);
     },
     function(error) {

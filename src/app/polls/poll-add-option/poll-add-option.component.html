@@ -1,0 +1,44 @@
+<form [formGroup]="optionsForm" (ngSubmit)="onSubmit()">
+
+  <div class="form-group form-group-lg">
+    <fieldset>
+      <div formArrayName="newOptions">
+        <div *ngFor="let option of optionsForm.get('newOptions').controls; let i = index;">
+          <div class="input-group">
+            <span class="input-group-addon">{{i + 1 + poll.options.length}}</span>
+            <input
+              type="text"
+              formControlName="{{i}}"
+              class="form-control"
+              placeholder="Option {{i + 1 + poll.options.length}}">
+              <span class="input-group-btn">
+                <button
+                  type="button"
+                  (click)="deleteOption(i)"
+                  class="btn btn-lg btn-warning">Delete</button>
+                </span>
+          </div>
+          <div
+            class="alert alert-warning"
+            [hidden]="option.valid || (option.pristine)">Please enter a valid option<span *ngIf="optionsForm.get('newOptions').controls"> or delete it</span>.</div>
+        </div>
+      </div>
+    </fieldset>
+  </div>
+
+  <div id="buttons">
+    <button
+      type="button"
+      class="btn btn-lg btn-warning"
+      (click)="addOption()">Add Option</button>
+    <button
+      [disabled]="!optionsForm.valid"
+      class="btn btn-lg btn-primary pull-right"
+      type="submit">Save Option</button>
+    <button
+      class="btn btn-lg btn-warning pull-right"
+      (click)="cancelEdit()"
+      type="button">Cancel</button>
+  </div>
+
+</form>

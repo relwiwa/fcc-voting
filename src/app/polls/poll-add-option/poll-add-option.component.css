@@ -1,0 +1,7 @@
+.input-group {
+  margin-bottom: 15px;
+}
+
+#buttons button:last-of-type {
+  margin-right:15px;
+}

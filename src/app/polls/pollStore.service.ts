@@ -15,7 +15,7 @@ export class PollStore {
 
   public getAllPolls() {
     let that = this;
-    if (this.promise === null) {
+//    if (this.promise === null) {
       this.promise = new Promise((resolve, reject) => {
         this.pollBackendService.getAllPolls()
           .then(function(response) {
@@ -42,16 +42,40 @@ export class PollStore {
           });
       });
       return this.promise;
-    }
+  /*  }
     else {
       return this.promise;
-    }
+    }*/
   }
 
   public vote(pollId, vote) {
     let that = this;
     return new Promise((resolve, reject) => {
       that.pollBackendService.vote(pollId, vote)
+        .then(function(response) {
+          let poll = response.json();
+          poll = poll.poll;
+          that.currentPoll = new Poll(
+            poll.question,
+            poll.options,
+            poll.voters,
+            poll.creator,
+            poll.created,
+            poll._id
+          );
+          console.log(that.currentPoll);
+          resolve(that.currentPoll);
+        },
+        function(error) {
+          reject(error);
+        });
+    });
+  }
+
+  public addOptions(pollId, userId, newOptions) {
+    let that = this;
+    return new Promise((resolve, reject) => {
+      that.pollBackendService.addOptions(pollId, userId, newOptions)
         .then(function(response) {
           let poll = response.json();
           poll = poll.poll;
@@ -70,6 +94,7 @@ export class PollStore {
         });
     });
   }
+
 
   public getPollById(pollId: string) {
     let that = this;

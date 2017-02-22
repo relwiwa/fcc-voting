@@ -13,12 +13,13 @@ export class PollResultsComponent implements OnInit {
 
   @Input() poll: Poll;
   @Input() userOwnsPoll: boolean;
+  private userEditsPoll: boolean;
 
   constructor(private pollStore: PollStore,
               private router: Router) { }
 
   ngOnInit() {
-
+    this.userEditsPoll = false;
   }
 
   deletePoll() {
@@ -35,7 +36,12 @@ export class PollResultsComponent implements OnInit {
   }
 
   editPoll() {
-    console.log('edit poll');
+    this.userEditsPoll = true;
+  }
+
+  editDone(poll) {
+    this.poll = poll;
+    this.userEditsPoll = false;
   }
 
 }

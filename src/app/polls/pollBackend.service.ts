@@ -51,4 +51,23 @@ export class PollBackendService {
       .toPromise();
   }
 
+  public addOptions(pollId, userId, newOptions) {
+    const body = JSON.stringify({
+      userId: userId,
+      options: newOptions
+    });
+    const headers = {
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.put(
+      'http://localhost:3000/poll/' + pollId + '?token=' + localStorage.getItem('token'),
+      body,
+      headers)
+      .toPromise();
+  }
+
+
 }

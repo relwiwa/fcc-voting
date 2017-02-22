@@ -101,9 +101,7 @@ router.use('/', function(req, res, next) {
   });
 });
 
-
-
-// todo: validate data in regard to mongodb injection
+// todo: validate data in regard to mongodb injection (maybe not as route is protected)
 router.post('/', function(req, res, next) {
   var options = [];
   for (var i = 0; i < req.body.options.length; i++) {
@@ -127,6 +125,38 @@ router.post('/', function(req, res, next) {
       response: poll
     });
   });
+});
+
+// Route to submit new option/s via put request
+// Route is protected, input was validated client-side
+router.put('/:pollId', function(req, res, next) {
+  var pollId = req.params.pollId;
+  var userId = req.params.userId;
+  var options = [];
+  for (var i = 0; i < req.body.options.length; i++) {
+    var option = {
+      value: req.body.options[i]
+    }
+    options.push(option);
+  }
+  Poll.findOneAndUpdate(
+    // make sure poll exists and was created by logged in user
+    { '_id': pollId,
+      'creator._id': userId },
+    { $push: { 'options': { $each: options } } },
+    { new: true },
+    function(err, poll) {
+      if (err || !poll) {
+        return res.status(500).json({
+          title: 'An error occurred, the vote was not saved.'
+        });
+      }
+      return res.status(200).json({
+        message: 'Vote was successfully saved',
+        poll: poll
+      });
+    }
+  );
 });
 
 // Todo: validate id parameter

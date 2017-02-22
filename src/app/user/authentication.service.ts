@@ -66,6 +66,7 @@ export class AuthenticationService implements CanActivate, OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
     this.signedInUser = null;
     this.router.navigateByUrl('/dashboard');
   }
