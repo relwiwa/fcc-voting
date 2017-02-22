@@ -68,4 +68,8 @@ export class PollDetailComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  updatePoll(poll: Poll) {
+    this.poll = poll;
+  }
+
 }

@@ -25,7 +25,7 @@ export class PollStore {
               let newPoll = new Poll(
                 poll.question,
                 poll.options,
-                poll.voter,
+                poll.voters,
                 poll.creator,
                 poll.created,
                 poll._id
@@ -58,7 +58,7 @@ export class PollStore {
           that.currentPoll = new Poll(
             poll.question,
             poll.options,
-            poll.voter,
+            poll.voters,
             poll.creator,
             poll.created,
             poll._id
@@ -115,7 +115,7 @@ export class PollStore {
                 let newPoll = new Poll(
                   response['question'],
                   response['options'],
-                  response['voter'],
+                  response['voters'],
                   response['creator'],
                   response['created'],
                   response['_id']

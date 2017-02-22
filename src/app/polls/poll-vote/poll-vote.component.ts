@@ -12,6 +12,7 @@ import { PollStore } from '../pollStore.service';
 export class PollVoteComponent implements OnInit {
 
   @Input() poll: Poll;
+  @Output() voted: EventEmitter<Poll> = new EventEmitter<Poll>();
   @Output() showResults: EventEmitter<void> = new EventEmitter<void>();
 
   private optionSelectedId: string;
@@ -121,6 +122,7 @@ export class PollVoteComponent implements OnInit {
       that.alreadyVoted = true;
       that.statusMessage = 'Your vote was successfully saved. Thank you for voting!'
       that.saveVoteToLocalStorage(poll.pollId, vote);
+      that.voted.emit(that.poll);
     },
     function(error) {
       that.statusMessage = 'An error happened, so your vote was not saved. Please try again or contact our support';      
