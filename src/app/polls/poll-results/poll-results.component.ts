@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Poll } from '../poll.model';
@@ -12,7 +12,7 @@ declare var Chart: any;
   styleUrls: ['./poll-results.component.css']
 })
 
-export class PollResultsComponent implements OnInit {
+export class PollResultsComponent implements AfterViewInit, OnInit {
 
   @Input() poll: Poll;
   @Input() userOwnsPoll: boolean;
@@ -21,8 +21,12 @@ export class PollResultsComponent implements OnInit {
   constructor(private pollStore: PollStore,
               private router: Router) { }
 
+
   ngOnInit() {
     this.userEditsPoll = false;
+  }
+
+  ngAfterViewInit() {
     if (this.poll.voters.length > 0) {
       this.sortOptions();
       this.createChart();
