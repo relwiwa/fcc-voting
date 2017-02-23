@@ -18,6 +18,7 @@ export class PollVoteComponent implements OnInit {
   private optionSelectedId: string;
   private voterId: string;
   private voteDate: Date;
+  private isSignedIn: boolean;
   private alreadyVoted: boolean;
   private submitted: boolean;
 
@@ -33,38 +34,30 @@ export class PollVoteComponent implements OnInit {
   }
 
   private setupAlreadyVoted() {
-    console.log('setup already voted', this.poll);
     if (this.poll.voters) {
       let voteInLS = this.checkVoteInLocalStorage(this.poll.pollId);
-      if (this.authService.isSignedIn() === true) {
-        console.log(this.poll.voters, this.voterId);
+      this.isSignedIn = this.authService.isSignedIn();
+      if (this.isSignedIn === true) {
         for (let i = 0; i < this.poll.voters.length; i++) {
           if (this.poll.voters[i]['voterId'] === this.voterId) {
-            let voteDate = this.extractVoteDateAndTime(this.poll.voters[i]['voteDate']);
+            this.voteDate = this.poll.voters[i]['voteDate'];
             this.alreadyVoted = true;
             this.optionSelectedId = this.poll.voters[i]['optionId'];
-            this.statusMessage = 'You already voted on this poll on ' + voteDate.date + ' at ' + voteDate.time;
             break;
           }          
         }
-        if (!this.alreadyVoted) {
-          this.statusMessage = 'Choose one of the options below and submit your vote';
-        }
       }
       else if (voteInLS !== null) {
-        let voteDate = this.extractVoteDateAndTime(voteInLS['voteDate']);
+        this.voteDate = voteInLS['voteDate'];
         this.alreadyVoted = true;
         this.optionSelectedId = voteInLS['vote'];
-        this.statusMessage = 'You or someone on this computer already voted on this poll on ' + voteDate.date + ' at ' + voteDate.time;
       }
       else {
         this.alreadyVoted = false;
-        this.statusMessage = 'Choose one of the options below and submit your vote';
       }
     }
     else {
       this.alreadyVoted = false;
-      this.statusMessage = 'Choose one of the options below and submit your vote';
     }
   }
 
