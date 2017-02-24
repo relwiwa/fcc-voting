@@ -30,13 +30,21 @@
       </div>
       <div
         class="alert alert-warning"
-        [hidden]="pollForm.controls.question.valid || (pollForm.controls.question.pristine)">Please enter your question (at least 10 characters; numbers, letters and commatas only).</div>
+        [hidden]="pollForm.controls.question.valid || (pollForm.controls.question.pristine)">
+        <div *ngIf="pollForm.controls.question.hasError('pattern')">Please only enter alphanumeric characters, whitespaces and commas</div>
+        <div *ngIf="pollForm.controls.question.hasError('minlength')">Please enter at least five characters</div>
+        <div *ngIf="pollForm.controls.question.hasError('maxlength')">Please do not enter more than 100 characters</div>
+        <div *ngIf="pollForm.controls.question.hasError('required')">Please enter your question</div>
+      </div>
     </div>
 
     <div class="form-group form-group-lg">
       <fieldset>
         <legend>Options</legend>
         <div formArrayName="options">
+        <div
+          class="alert alert-warning"
+          [hidden]="!pollForm.get('options').hasError('duplicate')">There are duplicate options in your poll.</div>
           <div *ngFor="let option of pollForm.get('options').controls; let i = index;">
             <div class="input-group">
               <span class="input-group-addon">{{i + 1}}</span>
@@ -55,7 +63,11 @@
             </div>
             <div
               class="alert alert-warning"
-              [hidden]="option.valid || (option.pristine)">Please enter a valid option<span *ngIf="pollForm.get('options').controls"> or delete it</span>.</div>
+              [hidden]="option.valid || (option.pristine)">
+              <div *ngIf="option.hasError('maxlength')">Please do not enter more than 50 characters</div>
+              <div *ngIf="option.hasError('pattern')">Please only enter alphanumeric characters and whitespaces</div>
+              <div *ngIf="option.hasError('required')">Please enter a valid option <span *ngIf="pollForm.get('options').controls.length > 2"> or delete it</span></div>
+            </div>
           </div>
         </div>
       </fieldset>

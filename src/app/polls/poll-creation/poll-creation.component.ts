@@ -19,7 +19,7 @@ export class PollCreationComponent implements OnInit {
   private errorMessage: string;
 
   constructor(private authService: AuthenticationService,
-              private pollService: PollStore,
+              private pollStore: PollStore,
               private router: Router) {
     this.submitted = false;
     this.errorMessage = null;
@@ -29,31 +29,59 @@ export class PollCreationComponent implements OnInit {
     this.pollForm = new FormGroup({
       'question': new FormControl(null, [
         Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9 ,]+$/),
-        Validators.minLength(10)
+        Validators.pattern(/^[a-zA-Z0-9]{1}[a-zA-Z0-9 ,]*$/),
+        Validators.minLength(5),
+        Validators.maxLength(100)
       ]),
       'options': new FormArray([
-        new FormControl(null, [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.pattern(/^[a-zA-Z0-9 ,]+$/)
-        ]),
-        new FormControl(null, [
-          Validators.required,
-          Validators.minLength(2)
-        ])
-      ])
+        this.createOption(),
+        this.createOption()
+      ],
+      this.checkDoubleEntries)
     });
+  }
+
+  createOption() {
+    return new FormControl(null, [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.maxLength(50),
+      Validators.pattern(/^[a-zA-Z0-9]{1}[a-z-A-Z0-9 ]*$/)
+    ]); 
+  }
+
+  /* rebuilt without using lodash from:
+     https://eyalvardi.wordpress.com/2016/08/28/custom-group-validation-in-angular-2/ */
+  checkDoubleEntries(formArray) {
+    let valuesGrouped = {};
+    let hasDoubleEntries = false;
+    for (let i = 0; i < formArray.value.length; i++) {
+      let item = formArray.value[i];
+      if (item !== null && item !== '') {
+        if (valuesGrouped[item]) {
+          valuesGrouped[item].push(formArray.controls[i]);
+        }
+        else {
+          valuesGrouped[item] = [formArray.controls[i]];
+        }
+      }
+    }
+    for (let item in valuesGrouped) {
+      if (valuesGrouped[item].length > 1) {
+        hasDoubleEntries = true;
+      }
+    }
+    if (hasDoubleEntries) {
+      return {
+        'duplicate': 'duplicate entries'
+      }
+    }
   }
 
   /* (<FormArray> casting is necessary for TS to accept the push method
       Thank you to Maximlian Schwarzmüller > Udemy > Angular 2 verstehen und anwenden */
   addOption() {
-    (<FormArray>this.pollForm.get('options')).push(new FormControl(null, [
-      Validators.required,
-      Validators.minLength(2),
-      Validators.pattern(/^[a-zA-Z0-9 ,]+$/)
-    ]));
+    (<FormArray>this.pollForm.get('options')).push(this.createOption());
   }
 
   deleteOption(index: number) {
@@ -72,7 +100,7 @@ export class PollCreationComponent implements OnInit {
     );
     this.submitted = true;
     this.errorMessage = null;
-    this.pollService.createPoll(newPoll)
+    this.pollStore.createPoll(newPoll)
       .then(
         data => {
           this.router.navigateByUrl('/poll/' + data['pollId']);
