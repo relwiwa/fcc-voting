@@ -55,7 +55,11 @@ export class PollResultsComponent implements AfterViewInit, OnInit {
     for (let i = 0; i < this.poll.options.length; i++) {
       let votes = this.poll.options[i]['votes'];
       if (votes > 0) {
-        dataForChart.labels.push(this.poll.options[i]['value']);
+        let label = this.poll.options[i]['value'];
+        if (label.length > 25) {
+          label = label.substr(0, 25) + '...';
+        }
+        dataForChart.labels.push(label);
         dataForChart.datasets[0].data.push(votes);  
       }
     }
