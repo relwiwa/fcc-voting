@@ -1,7 +1,11 @@
 <form [formGroup]="optionsForm" (ngSubmit)="onSubmit()">
 
   <div class="form-group form-group-lg">
-    <fieldset>
+  <fieldset>
+    <legend>New Options</legend>
+    <div
+      class="alert alert-warning"
+      [hidden]="!optionsForm.get('newOptions').hasError('duplicate')">You entered duplicate new options</div>
       <div formArrayName="newOptions">
         <div *ngFor="let option of optionsForm.get('newOptions').controls; let i = index;">
           <div class="input-group">
@@ -20,7 +24,12 @@
           </div>
           <div
             class="alert alert-warning"
-            [hidden]="option.valid || (option.pristine)">Please enter a valid option<span *ngIf="optionsForm.get('newOptions').controls"> or delete it</span>.</div>
+            [hidden]="option.valid || (option.pristine)">
+            <div *ngIf="option.hasError('alreadyExists')">This option already exists</div>
+            <div *ngIf="option.hasError('maxlength')">Please do not enter more than 50 characters</div>
+            <div *ngIf="option.hasError('pattern')">Please only enter alphanumeric characters and whitespaces</div>
+            <div *ngIf="option.hasError('required')">Please enter a valid option or delete it</div>
+          </div>
         </div>
       </div>
     </fieldset>

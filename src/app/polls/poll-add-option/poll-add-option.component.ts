@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Poll } from '../poll.model';
+import { PollsService } from '../polls.service';
 import { PollStore } from '../pollStore.service';
 import { AuthenticationService } from '../../user/authentication.service';
 
@@ -20,32 +21,65 @@ export class PollAddOptionComponent implements OnInit {
   private errorMessage: string;
   private userId: string;
 
-  constructor(private pollStore: PollStore,
-              private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private pollsService: PollsService,
+              private pollStore: PollStore) {
     this.submitted = false;
     this.errorMessage = null;
    }
 
-  // todo: custom validator to avoid the same option being entered again
   ngOnInit() {
     this.optionsForm = new FormGroup({
       'newOptions': new FormArray([
-        new FormControl(null, [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.pattern(/^[a-zA-Z0-9 ,]+$/)
-        ])
-      ])
+        this.pollsService.createOption()
+      ],
+      this.checkDuplicateAndExistingEntries.bind(this))
     });
     this.userId = this.authService.getUserId();
   }
 
+  /* rebuilt without using lodash from:
+     https://eyalvardi.wordpress.com/2016/08/28/custom-group-validation-in-angular-2/
+     Functionality:
+     - Checks whether user enters duplicate new options
+     - Checks whether new option entered by user already exists */
+  checkDuplicateAndExistingEntries() {
+    if (this.optionsForm !== undefined) {
+      let existingOptions = [];
+      for (let i = 0; i < this.poll.options.length; i++) {
+        existingOptions.push(this.poll.options[i]['value'].toLowerCase());
+      }
+
+      let newOptions = this.optionsForm.get('newOptions');
+      let newOptionsGrouped = {};
+      for (let i = 0; i < newOptions.value.length; i++) {
+        let item = newOptions.value[i];
+        if (item !== null && item !== '') {
+          item = item.toLowerCase();
+          if (newOptionsGrouped[item]) {
+            newOptionsGrouped[item]++;
+          }
+          else {
+            newOptionsGrouped[item] = 1;
+          }
+        }
+        // set Error 'alreadyExists' if new option already exists
+        if (existingOptions.indexOf(item) >= 0) {
+          (<FormArray>this.optionsForm.get('newOptions')).controls[i].setErrors({'alreadyExists': true});
+        }
+      }
+
+      let hasDoubleEntries = this.pollsService.checkForDuplicateOptions(newOptionsGrouped);
+      if (hasDoubleEntries) {
+        return {
+          'duplicate': 'duplicate entries'
+        }
+      }
+    }
+  }
+
   addOption() {
-    (<FormArray>this.optionsForm.get('newOptions')).push(new FormControl(null, [
-      Validators.required,
-      Validators.minLength(1),
-      Validators.pattern(/^[a-zA-Z0-9 ,]+$/)
-    ]));
+    (<FormArray>this.optionsForm.get('newOptions')).push(this.pollsService.createOption());
   }
 
   deleteOption(index: number) {

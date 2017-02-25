@@ -21,6 +21,7 @@ import { PollBackendService } from './polls/pollBackend.service';
 import { PollResultsComponent } from './polls/poll-results/poll-results.component';
 import { PollVoteComponent } from './polls/poll-vote/poll-vote.component';
 import { PollAddOptionComponent } from './polls/poll-add-option/poll-add-option.component';
+import { PollsService } from './polls/polls.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { PollAddOptionComponent } from './polls/poll-add-option/poll-add-option.
   providers: [
     AuthenticationService,
     PollBackendService,
-    PollStore
+    PollStore,
+    PollsService
   ],
   bootstrap: [AppComponent]
 })
