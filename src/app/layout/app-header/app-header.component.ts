@@ -9,10 +9,19 @@ import { AuthenticationService } from '../../user/authentication.service';
 })
 
 export class AppHeaderComponent {
-  private appTitle: string;
+  private navbarIn: boolean;
 
   constructor(private authService: AuthenticationService) {
-    this.appTitle = 'Decisions, decisions';
+    this.navbarIn = false;
+  }
+
+  toggleNavbarIn() {
+    this.navbarIn = this.navbarIn === false ? true : false;
+    console.log(this.navbarIn);
+  }
+
+  collapseNavbar(event, url) {
+    this.navbarIn = false;
   }
 
 }

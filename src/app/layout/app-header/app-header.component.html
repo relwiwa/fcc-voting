@@ -1,15 +1,30 @@
 <nav class="navbar navbar-default">
-  <div class="navbar-header">
-    <a class="navbar-brand" [routerLink]="['/dashboard']">{{appTitle}}</a>
-  </div>
-  <div class="collapse navbar-collapse">
-    <ul class="nav navbar-nav navbar-right">
-      <li *ngIf="authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/poll-creation']">Add Poll</a></li>
-      <li routerLinkActive="active"><a [routerLink]="['/polls']">All Polls</a></li>
-      <li *ngIf="authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/dashboard']">My Polls</a></li>
-      <li *ngIf="!authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/signin']">Signin</a></li>
-      <li *ngIf="!authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/signup']">Signup</a></li>
-      <li *ngIf="authService.isSignedIn()"><a (click)="authService.logout()">Logout</a></li>
-    </ul>
-  </div>
+  <div class="container-fluid">
+    
+    <div class="navbar-header">
+      <button
+        type="button"
+        class="navbar-toggle collapsed"
+        [attr.aria-expanded]="navbarIn"
+        (click)="toggleNavbarIn()">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" [routerLink]="['/dashboard']" (click)="collapseNavbar()">Decisions, Decisions</a>
+    </div><!-- /navbar-header -->
+
+    <div class="navbar-collapse collapse" [ngClass]="{'in': navbarIn}">
+      <ul class="nav navbar-nav navbar-right">
+        <li *ngIf="authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/poll-creation']" (click)="collapseNavbar()">Add Poll</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['/polls']" (click)="collapseNavbar()">All Polls</a></li>
+        <li *ngIf="authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/dashboard']" (click)="collapseNavbar()">My Polls</a></li>
+        <li *ngIf="!authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/signin']" (click)="collapseNavbar()">Signin</a></li>
+        <li *ngIf="!authService.isSignedIn()" routerLinkActive="active"><a [routerLink]="['/signup']" (click)="collapseNavbar()">Signup</a></li>
+        <li *ngIf="authService.isSignedIn()"><a (click)="authService.logout()">Logout</a></li>
+      </ul>
+    </div><!-- navbar-collapse -->
+
+  </div> <!--container-fluid -->
 </nav>
