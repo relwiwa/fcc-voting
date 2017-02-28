@@ -1,16 +1,18 @@
 <div *ngIf="polls === null">Loading polls</div>
 <div *ngIf="polls !== null && polls.length === 0">
   <div class="row panel panel-default">
-    <div class="col col-xs-12 panel-body">No polls available</div>
+    <div class="panel-body">No polls available</div>
   </div>
 </div>
-<div *ngFor="let poll of polls" class="col col-xs-12">
-  <div class="row panel panel-default">
-    <div class="col col-xs-12 panel-body">{{poll.question}}</div>
-    <div class="col col-xs-12 panel-footer">
+<div *ngFor="let poll of polls">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="text-center">{{poll.question}}?</h3>
+    </div>
+    <div class="panel-footer">
       <div class="row">
-        <div class="col col-xs-8">{{poll.creatorId}}</div>
-        <div class="col col-xs-4 text-right"><a [routerLink]='["/poll", poll.pollId]' href="#">Vote now</a></div>
+        <div class="col col-xs-7">{{poll.voters.length}} vote<span *ngIf="poll.voters.length === 1">s</span> since {{poll.created | date}}</div>
+        <div class="col col-xs-5 text-right"><a [routerLink]='["/poll", poll.pollId]' class="btn btn-info">Vote now</a></div>
       </div>
     </div>
   </div>

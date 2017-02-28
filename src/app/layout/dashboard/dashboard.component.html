@@ -1,6 +1,6 @@
 <div class="jumbotron">
   <div class="container">
-    <h1>Hello and Welcome<span *ngIf="authService.isSignedIn()"> back</span>!</h1>
+    <h1>Hello and Welcome<span *ngIf="authService.isSignedIn()"> Back</span>!</h1>
     <p>Effective decision making is just around the corner at Decisions, Decisions</p>
     <p *ngIf="!authService.isSignedIn()">Let people around the globe help you in making decisions by creating your own polls. <a routerLink="/signup">Sign up</a> or <a routerLink="/signin">sign in</a> now</p>
     <p *ngIf="authService.isSignedIn()"><a routerLink="/signup">Add new polls</a> or <a routerLink='/polls'>manage your existing polls</a> to see how people around the globe have voted</p>
