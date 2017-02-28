@@ -2,8 +2,9 @@
   <div class="panel-heading text-center">{{poll.question}}?</div>
   <div class="panel-body text-center">
     <span *ngIf="!alreadyVoted">Choose one of the options below and submit your vote</span>
-    <span *ngIf="alreadyVoted && isSignedIn">You already voted on this poll on {{voteDate | date:'fullDate'}}</span>
-    <span *ngIf="alreadyVoted && !isSignedIn">You or someone on this computer already voted on this poll on {{voteDate | date:'fullDate'}}</span>
+    <span *ngIf="!submitted && alreadyVoted && isSignedIn">You already voted on this poll on {{voteDate | date:'fullDate'}}</span>
+    <span *ngIf="!submitted && alreadyVoted && !isSignedIn">You or someone on this computer already voted on this poll on {{voteDate | date:'fullDate'}}</span>
+    <span *ngIf="submitted">{{statusMessage}}</span>
   </div>
   <div *ngIf="!alreadyVoted" class="list-group">
     <button
