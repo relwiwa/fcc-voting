@@ -7,9 +7,20 @@ import { User } from './user.model';
 @Injectable()
 export class AuthenticationService implements CanActivate, OnInit {
   private signedInUser;
-  
+  private backendUrl: string;
+
   constructor(private http: Http, private router: Router) {
     this.signedInUser = null;
+    this.setupBackendUrl();
+  }
+
+  private setupBackendUrl() {
+    if (window.location.hostname === 'localhost') {
+      this.backendUrl = window.location.protocol + '//' + window.location.hostname + ':3000';
+    }
+    else {
+      this.backendUrl = window.location.origin; 
+    }
   }
 
   ngOnInit() {
@@ -24,7 +35,7 @@ export class AuthenticationService implements CanActivate, OnInit {
       })
     };
     return this.http.post(
-      'http://localhost:3000/user/signup',
+      this.backendUrl + '/user/signup',
       body,
       headers)
       .toPromise();
@@ -40,7 +51,7 @@ export class AuthenticationService implements CanActivate, OnInit {
     };
     return new Promise((resolve, reject) => {
       that.http.post(
-      'http://localhost:3000/user/signin',
+      this.backendUrl + '/user/signin',
       body,
       headers)
       .toPromise()

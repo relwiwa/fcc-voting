@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
-import { Router } from '@angular/router';
 
 import 'rxjs/Rx';
 
@@ -11,8 +10,7 @@ export class PollBackendService {
 
   private backendUrl: string;
 
-  constructor(private http: Http,
-              private router: Router) {
+  constructor(private http: Http) {
     this.setupBackendUrl();
   }
 
