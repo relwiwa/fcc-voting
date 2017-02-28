@@ -1,0 +1,31 @@
+a.btn {
+  margin-right:25px;
+}
+
+.thumbnail {
+  min-height:0;
+}
+
+@media (min-width: 768px) {
+
+  .thumbnail {
+    min-height:200px;
+  }
+
+}
+
+@media (min-width: 992px) {
+
+  .thumbnail {
+    min-height:170px;
+  }
+
+}
+
+@media (min-width: 1200px) {
+
+  .thumbnail {
+    min-height:140px;
+  }
+
+}

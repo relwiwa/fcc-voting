@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Poll } from '../../polls/poll.model';
 import { PollStore } from '../../polls/pollStore.service';
 
+import { AuthenticationService } from '../../user/authentication.service';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -10,5 +12,7 @@ import { PollStore } from '../../polls/pollStore.service';
 })
 
 export class DashboardComponent {
+
+  constructor(private authService: AuthenticationService) { }
 
 }

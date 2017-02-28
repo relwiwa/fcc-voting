@@ -1,3 +1,7 @@
 a:not([href]){
   cursor: pointer; 
 }
+
+.navbar {
+  margin-bottom:0;
+}

@@ -1,3 +1,124 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1>Hello and Welcome<span *ngIf="authService.isSignedIn()"> back</span>!</h1>
+    <p>Effective decision making is just around the corner at Decisions, Decisions</p>
+    <p *ngIf="!authService.isSignedIn()">Let people around the globe help you in making decisions by creating your own polls. <a routerLink="/signup">Sign up</a> or <a routerLink="/signin">sign in</a> now</p>
+    <p *ngIf="authService.isSignedIn()"><a routerLink="/signup">Add new polls</a> or <a routerLink='/polls'>manage your existing polls</a> to see how people around the globe have voted</p>
+    <p>Or, check out <a routerLink="/polls">other people's polls</a> and cast your vote</p>
+    <p *ngIf="!authService.isSignedIn()"><a class="btn btn-success btn-lg" routerLink="/signup" role="button">Sign up</a> <a class="btn btn-primary btn-lg" routerLink="/signin" role="button">Sign in</a></p>
+    <p *ngIf="authService.isSignedIn()"><a class="btn btn-success btn-lg" routerLink="/poll-creation" role="button">Create poll</a> <a class="btn btn-primary btn-lg" routerLink="/polls" role="button">Manage polls</a></p>
+  </div>
+</div>
+
+<div class="container">
+  <div id="user-stories" class="page-header">
+    <h2>User stories <small>aka. Freecodecamp's Voting App</small></h2>
+  </div>
+
+  <div class="row">
+    <p class="col-xs-12 lead">Decisions, Decisions is part of <a href="https://www.freecodecamp.com">Freecodecamp</a>'s Backend Certification and implements the following User Stories of the <a href="https://www.freecodecamp.com/challenges/build-a-voting-app">Voting App Challenge</a></p>
+  </div>
+
+  <div class="page-header">
+    <h3>As a signed in user you can</h3>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>Create polls with any number of possible items</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-save-file" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>Keep your polls and come back later to access them</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-send" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>Share your polls with friends</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>See aggregate results of your polls</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>Delete polls that you decide you don't want anymore</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div *ngIf="!authService.isSignedIn()" class="row">
+        <div class="hidden-xs"><br><br></div>
+        <div class="col col-xs-6 text-center">
+          <a class="btn btn-success btn-lg" routerLink="/signup" role="button">Sign up</a>
+        </div>
+        <div class="col col-xs-6 text-center">
+          <a class="btn btn-primary btn-lg" routerLink="/signin" role="button">Sign in</a>
+        </div>
+      </div>
+      <div *ngIf="authService.isSignedIn()" class="row">
+        <div class="hidden-xs"><br><br></div>
+        <div class="col col-xs-6 text-center">
+          <a class="btn btn-success btn-lg" routerLink="/poll-creation" role="button">Create poll</a>
+        </div>
+        <div class="col col-xs-6 text-center">
+          <a class="btn btn-primary btn-lg" routerLink="/polls" role="button">Manage polls</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-header">
+    <h3>Everyone can</h3>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-check" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>See and vote on everyone's polls</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="thumbnail">
+        <h3 class="text-center"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span></h3>
+        <div class="caption text-center">
+          <h4>See the results of polls in chart form</h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4">
+      <div class="row">
+        <div class="hidden-xs"><br><br></div>
+        <div class="col col-xs-12 text-center">
+          <a class="btn btn-info btn-lg" routerLink="/polls" role="button">Vote now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<!--
 <div class="row">
   <div class="col col-xs-12 col-md-6">
     Intro-Image and Description of Decisions, decisions
@@ -19,4 +140,4 @@
 <polls-list [amount]="3"></polls-list>
 <div class="row">
   <div class="col col-xs-12 text-right"><a href="#">Show all polls that need your vote</a></div>
-</div>  
+</div>  -->

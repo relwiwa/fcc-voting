@@ -17,7 +17,6 @@ export class AppHeaderComponent {
 
   toggleNavbarIn() {
     this.navbarIn = this.navbarIn === false ? true : false;
-    console.log(this.navbarIn);
   }
 
   collapseNavbar(event, url) {

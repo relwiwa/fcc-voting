@@ -8,5 +8,4 @@ import { AppHeaderComponent } from './layout/app-header/app-header.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app works!';
 }
