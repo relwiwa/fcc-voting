@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http } from '@angular/http';
+import { Router } from '@angular/router';
 
 import 'rxjs/Rx';
 
@@ -8,10 +9,24 @@ import { Poll } from './poll.model';
 @Injectable()
 export class PollBackendService {
 
-  constructor(private http: Http) { }
+  private backendUrl: string;
+
+  constructor(private http: Http,
+              private router: Router) {
+    this.setupBackendUrl();
+  }
+
+  private setupBackendUrl() {
+    if (window.location.hostname === 'localhost') {
+      this.backendUrl = window.location.protocol + '//' + window.location.hostname + ':3000';
+    }
+    else {
+      this.backendUrl = window.location.origin; 
+    }
+  }
 
   public getAllPolls() {
-    return this.http.get('http://localhost:3000/poll')
+    return this.http.get(this.backendUrl + '/poll')
       .toPromise();
   }
 
@@ -25,14 +40,14 @@ export class PollBackendService {
     };
 
     return this.http.post(
-      'http://localhost:3000/poll' + token,
+      this.backendUrl + '/poll' + token,
       body,
       headers)
       .toPromise();
   }
 
   public deletePoll(pollId: string) {
-    return this.http.delete('http://localhost:3000/poll/' + pollId + '?token=' + localStorage.getItem('token'))
+    return this.http.delete(this.backendUrl + '/poll/' + pollId + '?token=' + localStorage.getItem('token'))
       .toPromise();
   }
 
@@ -45,7 +60,7 @@ export class PollBackendService {
     };
 
     return this.http.patch(
-      'http://localhost:3000/poll/' + pollId,
+      this.backendUrl + '/poll/' + pollId,
       body,
       headers)
       .toPromise();
@@ -63,11 +78,10 @@ export class PollBackendService {
     };
 
     return this.http.put(
-      'http://localhost:3000/poll/' + pollId + '?token=' + localStorage.getItem('token'),
+      this.backendUrl + '/poll/' + pollId + '?token=' + localStorage.getItem('token'),
       body,
       headers)
       .toPromise();
   }
-
 
 }
