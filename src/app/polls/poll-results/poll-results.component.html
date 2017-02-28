@@ -1,37 +1,47 @@
-<div class="panel panel-info">
-  <div class="panel-heading text-center">{{poll.question}}?</div>
-  <div *ngIf="poll.voters.length > 0" class="panel-body">
-    <div class="col col-xs-10 col-xs-offset-1 col-sm-offset-3 col-sm-6">
-     <canvas id="myChart"></canvas>
+<div class="row">
+  <div class="col col-md-10 col-md-offset-1">
+    <div class="panel panel-info">
+      <div class="panel-heading text-center">
+        <h3>{{poll.question}}?</h3>
+      </div>
+      <div *ngIf="poll.voters.length > 0" class="panel-body">
+        <div class="col col-xs-10 col-xs-offset-1 col-sm-offset-3 col-sm-6">
+        <canvas id="myChart"></canvas>
+        </div>
+      </div>
+      <ul class="list-group">
+        <li
+          *ngFor="let option of poll.options; let i = index;"
+          [attr.id]="option['_id']"
+          class="list-group-item lead">
+          {{option.value}}
+          <span class="label label-info pull-right">{{option.votes}}</span>
+        </li>
+      </ul>
+      <div class="panel-footer">
+        This poll was created on {{poll.created | date: 'fullDate'}}.
+        <span *ngIf="poll.voters.length > 0">So far, {{poll.voters.length}} <span *ngIf="poll.voters.length === 1">person has</span><span *ngIf="poll.voters.length > 1">people have</span> voted.</span>
+        <span *ngIf="poll.voters.length === 0">So far, noone has voted.</span>
+      </div>
     </div>
   </div>
-  <ul class="list-group">
-    <li
-      *ngFor="let option of poll.options; let i = index;"
-      [attr.id]="option['_id']"
-      [ngClass]="{'list-group-item': true}">
-      {{option.value}}
-      <span class="label label-info pull-right">{{option.votes}}</span>
-    </li>
-  </ul>
-  <div class="panel-footer">
-    This poll was created on {{poll.created | date: 'fullDate'}}.
-    <span *ngIf="poll.voters.length > 0">So far, {{poll.voters.length}} <span *ngIf="poll.voters.length === 1">person has</span><span *ngIf="poll.voters.length > 1">people have</span> voted.</span>
-    <span *ngIf="poll.voters.length === 0">So far, noone has voted.</span>
-  </div>
 </div>
-<poll-add-option
-  *ngIf="userEditsPoll"
-  [poll]="poll"
-  (editCancelled)="userEditsPoll = false"
-  (editDone)="editDone($event)"></poll-add-option>
-<div *ngIf="!userEditsPoll">
-  <button
-    *ngIf="userOwnsPoll"
-    class="btn btn-lg btn-danger"
-    (click)="deletePoll()">Delete Poll</button>
-  <button
-    *ngIf="userOwnsPoll"
-    class="btn btn-lg btn-warning pull-right"
-    (click)="editPoll()">Add Option</button>
+<div class="row">
+  <div class="col col-md-10 col-md-offset-1">
+    <poll-add-option
+      *ngIf="userEditsPoll"
+      [poll]="poll"
+      (editCancelled)="userEditsPoll = false"
+      (editDone)="editDone($event)"></poll-add-option>
+    <div *ngIf="!userEditsPoll">
+      <button
+        *ngIf="userOwnsPoll"
+        class="btn btn-lg btn-danger"
+        (click)="deletePoll()">Delete Poll</button>
+      <button
+        *ngIf="userOwnsPoll"
+        class="btn btn-lg btn-warning pull-right"
+        (click)="editPoll()">Add Option</button>
+    </div>
+  </div>
 </div>

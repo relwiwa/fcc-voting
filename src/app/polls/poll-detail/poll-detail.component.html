@@ -1,11 +1,15 @@
-<div *ngIf="poll !== null" class="col-xs-12 col-md-10 col-md-offset-1">
-  <poll-vote
-    *ngIf="!showResults"
-    (voted)="updatePoll($event)"
-    (showResults)="showResults = true"
-    [poll]="poll"></poll-vote>
-  <poll-results
-    *ngIf="showResults"
-    [poll]="poll"
-    [userOwnsPoll]="userOwnsPoll"></poll-results>
+<div class="container">
+
+  <div *ngIf="poll !== null">
+    <poll-vote
+      *ngIf="!showResults"
+      (voted)="updatePoll($event)"
+      (showResults)="showResults = true"
+      [poll]="poll"></poll-vote>
+    <poll-results
+      *ngIf="showResults"
+      [poll]="poll"
+      [userOwnsPoll]="userOwnsPoll"></poll-results>
+  </div>
+
 </div>

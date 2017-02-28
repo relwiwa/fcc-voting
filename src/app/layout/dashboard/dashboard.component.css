@@ -6,6 +6,11 @@ a.btn {
   min-height:0;
 }
 
+.jumbotron .container {
+  margin-top:0;
+  margin-bottom:0;
+}
+
 @media (min-width: 768px) {
 
   .thumbnail {

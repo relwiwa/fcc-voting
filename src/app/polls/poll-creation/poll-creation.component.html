@@ -1,97 +1,107 @@
-<div class="col-xs-12 col-md-10 col-md-offset-1">
-  <div [ngClass]="{'panel-info': (errorMessage === null), 'panel-warning': (!submitted && (errorMessage !== null)), 'panel': true}">
-    <div class="panel-heading">Create new Poll</div>
-    <div *ngIf="!submitted && (errorMessage === null)" class="panel-body">
-      <p>Enter your question with at least two options below</p>
-    </div>
-    <div *ngIf="submitted && (errorMessage === null)" class="panel-body">
-      <p>Sending poll data to server</p>
-      <p>Please wait</p>
-    </div>
-    <div *ngIf="!submitted && (errorMessage !== null)" class="panel-body">
-      <p>{{errorMessage}}</p>
-      <p>Please try again or contact our support</p>
+<div class="container">
+
+  <div class="row">
+    <div class="col col-xs-12 col-md-10 col-md-offset-1">
+      <div [ngClass]="{'panel-info': (errorMessage === null), 'panel-warning': (!submitted && (errorMessage !== null))}" class="panel">
+        <div class="panel-heading">
+          <h3>Create new Poll</h3>
+        </div>
+        <div *ngIf="!submitted && (errorMessage === null)" class="panel-body">
+          <p class="lead">Enter your question with at least two options below</p>
+        </div>
+        <div *ngIf="submitted && (errorMessage === null)" class="panel-body">
+          <p class="lead">Sending poll data to server</p>
+          <p class="lead">Please wait</p>
+        </div>
+        <div *ngIf="!submitted && (errorMessage !== null)" class="panel-body">
+          <p class="lead">{{errorMessage}}</p>
+          <p class="lead">Please try again or contact our support</p>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 
-
-<div *ngIf="!submitted" class="col-xs-12 col-md-10 col-md-offset-1">
-  <form [formGroup]="pollForm" (ngSubmit)="onSubmit()">
-    <div class="form-group form-group-lg">
-      <legend>Question</legend>
-      <div class="input-group">
-        <span class="input-group-addon">?</span>
-        <input
-          type="text"
-          formControlName="question"
-          class="form-control"
-          placeholder="Question">
-      </div>
-      <div
-        class="alert alert-warning"
-        [hidden]="pollForm.controls.question.valid || (pollForm.controls.question.pristine)">
-        <div *ngIf="pollForm.controls.question.hasError('pattern')">Please only enter alphanumeric characters, whitespaces and commas</div>
-        <div *ngIf="pollForm.controls.question.hasError('minlength')">Please enter at least five characters</div>
-        <div *ngIf="pollForm.controls.question.hasError('maxlength')">Please do not enter more than 100 characters</div>
-        <div *ngIf="pollForm.controls.question.hasError('required')">Please enter your question</div>
-      </div>
-    </div>
-
-    <div class="form-group form-group-lg">
-      <fieldset>
-        <legend>Options</legend>
-        <div formArrayName="options">
-        <div
-          class="alert alert-warning"
-          [hidden]="!pollForm.get('options').hasError('duplicate')">There are duplicate options in your poll.</div>
-          <div *ngFor="let option of pollForm.get('options').controls; let i = index;">
-            <div class="input-group">
-              <span class="input-group-addon">{{i + 1}}</span>
-              <input
-                type="text"
-                formControlName="{{i}}"
-                class="form-control"
-                placeholder="Option {{i + 1}}">
-                <span class="input-group-btn">
-                  <button
-                    type="button"
-                    (click)="deleteOption(i)"
-                    [disabled]="pollForm.get('options').controls.length <= 2"
-                    class="btn btn-lg btn-warning">Delete</button>
-                  </span>
-            </div>
-            <div
-              class="alert alert-warning"
-              [hidden]="option.valid || (option.pristine)">
-              <div *ngIf="option.hasError('maxlength')">Please do not enter more than 50 characters</div>
-              <div *ngIf="option.hasError('pattern')">Please only enter alphanumeric characters and whitespaces</div>
-              <div *ngIf="option.hasError('required')">Please enter a valid option <span *ngIf="pollForm.get('options').controls.length > 2"> or delete it</span></div>
-            </div>
+  <div class="row">
+    <div *ngIf="!submitted" class="col col-xs-12 col-md-10 col-md-offset-1">
+      <form [formGroup]="pollForm" (ngSubmit)="onSubmit()">
+        <div class="form-group form-group-lg">
+          <legend>Question</legend>
+          <div class="input-group">
+            <span class="input-group-addon">?</span>
+            <input
+              type="text"
+              formControlName="question"
+              class="form-control"
+              placeholder="Question">
+          </div>
+          <div
+            class="alert alert-warning"
+            [hidden]="pollForm.controls.question.valid || (pollForm.controls.question.pristine)">
+            <div *ngIf="pollForm.controls.question.hasError('pattern')">Please only enter alphanumeric characters, whitespaces and commas</div>
+            <div *ngIf="pollForm.controls.question.hasError('minlength')">Please enter at least five characters</div>
+            <div *ngIf="pollForm.controls.question.hasError('maxlength')">Please do not enter more than 100 characters</div>
+            <div *ngIf="pollForm.controls.question.hasError('required')">Please enter your question</div>
           </div>
         </div>
-      </fieldset>
-    </div>
-    <button
-      type="button"
-      class="btn btn-lg btn-warning"
-      (click)="addOption()">Add Option</button>
-    <button
-      [disabled]="!pollForm.valid"
-      class="btn btn-lg btn-primary pull-right"
-      type="submit">Save Poll</button>
-  </form>
-</div>
 
-<div *ngIf="submitted" class="col col-xs-12 col-md-10 col-md-offset-1">
-  <div class="panel panel-default">
-    <div class="row panel-body">
-      <div class="col col-xs-12">Question:</div>
-      <div class="col col-xs-12">{{ pollForm.value.question }}</div>
+        <div class="form-group form-group-lg">
+          <fieldset>
+            <legend>Options</legend>
+            <div formArrayName="options">
+            <div
+              class="alert alert-warning"
+              [hidden]="!pollForm.get('options').hasError('duplicate')">There are duplicate options in your poll.</div>
+              <div *ngFor="let option of pollForm.get('options').controls; let i = index;">
+                <div class="input-group">
+                  <span class="input-group-addon">{{i + 1}}</span>
+                  <input
+                    type="text"
+                    formControlName="{{i}}"
+                    class="form-control"
+                    placeholder="Option {{i + 1}}">
+                    <span class="input-group-btn">
+                      <button
+                        type="button"
+                        (click)="deleteOption(i)"
+                        [disabled]="pollForm.get('options').controls.length <= 2"
+                        class="btn btn-lg btn-warning">Delete</button>
+                      </span>
+                </div>
+                <div
+                  class="alert alert-warning"
+                  [hidden]="option.valid || (option.pristine)">
+                  <div *ngIf="option.hasError('maxlength')">Please do not enter more than 50 characters</div>
+                  <div *ngIf="option.hasError('pattern')">Please only enter alphanumeric characters and whitespaces</div>
+                  <div *ngIf="option.hasError('required')">Please enter a valid option <span *ngIf="pollForm.get('options').controls.length > 2"> or delete it</span></div>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <button
+          type="button"
+          class="btn btn-lg btn-warning"
+          (click)="addOption()">Add Option</button>
+        <button
+          [disabled]="!pollForm.valid"
+          class="btn btn-lg btn-primary pull-right"
+          type="submit">Save Poll</button>
+      </form>
     </div>
-    <div *ngFor="let option of pollForm.get('options').controls; let i = index;" class="row panel-body">
-      <div class="col col-xs-12">Option {{ i + 1}}:</div>
-      <div class="col col-xs-12">{{ option.value }}</div>
+  </div>
+
+  <div class="row">
+    <div *ngIf="submitted" class="col col-xs-12 col-md-10 col-md-offset-1">
+      <div class="panel panel-default">
+        <div class="row panel-body">
+          <div class="col col-xs-12">Question:</div>
+          <div class="col col-xs-12">{{ pollForm.value.question }}</div>
+        </div>
+        <div *ngFor="let option of pollForm.get('options').controls; let i = index;" class="row panel-body">
+          <div class="col col-xs-12">Option {{ i + 1}}:</div>
+          <div class="col col-xs-12">{{ option.value }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

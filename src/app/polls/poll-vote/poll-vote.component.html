@@ -1,34 +1,41 @@
-<div Class="panel panel-info">
-  <div class="panel-heading text-center">{{poll.question}}?</div>
-  <div class="panel-body text-center">
-    <span *ngIf="!alreadyVoted">Choose one of the options below and submit your vote</span>
-    <span *ngIf="!submitted && alreadyVoted && isSignedIn">You already voted on this poll on {{voteDate | date:'fullDate'}}</span>
-    <span *ngIf="!submitted && alreadyVoted && !isSignedIn">You or someone on this computer already voted on this poll on {{voteDate | date:'fullDate'}}</span>
-    <span *ngIf="submitted">{{statusMessage}}</span>
-  </div>
-  <div *ngIf="!alreadyVoted" class="list-group">
+<div class="row">
+  <div class="col col-xs-12 col-md-10 col-md-offset-1">
+    <div Class="panel panel-info">
+      <div class="panel-heading text-center">
+        <h3>{{poll.question}}?</h3>
+      </div>
+      <div class="panel-body text-center lead">
+        <span *ngIf="!alreadyVoted">Choose one of the options below and submit your vote</span>
+        <span *ngIf="!submitted && alreadyVoted && isSignedIn">You already voted on this poll on {{voteDate | date:'fullDate'}}</span>
+        <span *ngIf="!submitted && alreadyVoted && !isSignedIn">You or someone on this computer already voted on this poll on {{voteDate | date:'fullDate'}}</span>
+        <span *ngIf="submitted">{{statusMessage}}</span>
+      </div>
+      <div *ngIf="!alreadyVoted" class="list-group">
+        <button
+          *ngFor="let option of poll.options; let i = index;"
+          (click)="onChoseOption($event)"
+          [attr.id]="option['_id']"
+          class="list-group-item lead"
+          [ngClass]="{'active': (optionSelectedId === option['_id'])}"
+        >{{option.value}}</button>
+      </div>
+      <div *ngIf="alreadyVoted" class="list-group">
+        <li
+          *ngFor="let option of poll.options; let i = index;"
+          [attr.id]="option['_id']"
+          [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
+        >{{option.value}}</li>
+      </div>
+    </div>
     <button
-      *ngFor="let option of poll.options; let i = index;"
-      (click)="onChoseOption($event)"
-      [attr.id]="option['_id']"
-      [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
-    >{{option.value}}</button>
+      *ngIf="!alreadyVoted"
+      [disabled]="!optionSelectedId"
+      class="btn btn-lg btn-primary pull-right"
+      (click)="onSubmit()">Submit Vote</button>
+    <button
+      *ngIf="alreadyVoted"
+      [disabled]="!optionSelectedId"
+      class="btn btn-lg btn-success pull-right"
+      (click)="showResults.emit()">Show Results</button>
+    </div>
   </div>
-  <div *ngIf="alreadyVoted" class="list-group">
-    <li
-      *ngFor="let option of poll.options; let i = index;"
-      [attr.id]="option['_id']"
-      [ngClass]="{'list-group-item': true, 'active': (optionSelectedId === option['_id'])}"
-    >{{option.value}}</li>
-  </div>
-</div>
-<button
-  *ngIf="!alreadyVoted"
-  [disabled]="!optionSelectedId"
-  class="btn btn-lg btn-primary pull-right"
-  (click)="onSubmit()">Submit Vote</button>
-<button
-  *ngIf="alreadyVoted"
-  [disabled]="!optionSelectedId"
-  class="btn btn-lg btn-success pull-right"
-  (click)="showResults.emit()">Show Results</button>
