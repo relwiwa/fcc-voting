@@ -72,11 +72,12 @@ export class PollResultsComponent implements AfterViewInit, OnInit {
   deletePoll() {
     let that = this;
     this.pollStore.deletePoll(this.poll.pollId)
-    .then(function() {
+    .subscribe(() => {
+      console.log('Poll was deleted successfully');
       // todo: add confirmation message to about to be implemented message component
       that.router.navigateByUrl('/polls');
     },
-    function(error) {
+    error => {
       // todo: add error message to about to be implemented message component
       console.log('poll was not deleted', error);
     });

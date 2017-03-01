@@ -54,26 +54,6 @@ export class PollCreationComponent implements OnInit {
         }
       }
     }
-
-/*    let valuesGrouped = {};
-    let hasDoubleEntries = false;
-    for (let i = 0; i < formArray.value.length; i++) {
-      let item = formArray.value[i];
-      if (item !== null && item !== '') {
-        item = item.toLowerCase();
-        if (valuesGrouped[item]) {
-          valuesGrouped[item].push(formArray.controls[i]);
-        }
-        else {
-          valuesGrouped[item] = [formArray.controls[i]];
-        }
-      }
-    }
-    for (let item in valuesGrouped) {
-      if (valuesGrouped[item].length > 1) {
-        hasDoubleEntries = true;
-      }
-    }*/
   }
 
   /* (<FormArray> casting is necessary for TS to accept the push method
@@ -99,14 +79,14 @@ export class PollCreationComponent implements OnInit {
     this.submitted = true;
     this.errorMessage = null;
     this.pollStore.createPoll(newPoll)
-      .then(
-        data => {
-          this.router.navigateByUrl('/poll/' + data['pollId']);
-        },
-        error => {
-          this.submitted = false;
-          this.errorMessage = error.message;
-        }
-      );
+    .subscribe(
+      newPoll => {
+        this.router.navigateByUrl('/poll/' + newPoll['pollId']);
+      },
+      error => {
+        this.submitted = false;
+        this.errorMessage = 'An error happened. Your poll was not saved';
+      }
+    );
   }
 }

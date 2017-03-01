@@ -17,15 +17,17 @@ export class PollsListComponent {
   constructor(private pollStore: PollStore) {
     let that = this;
     this.pollStore.getAllPolls()
-      .then(function(polls) {
-        that.polls = polls;
-        if (that.amount !== null) {
-          that.polls = that.polls.slice(0, that.amount);
+      .subscribe(
+        polls => {
+          that.polls = polls;
+          if (that.amount !== null) {
+            that.polls = that.polls.slice(0, that.amount);
+          }
+        },
+        error => {
+          that.polls = [];
         }
-      })
-      .catch(function(error) {
-        that.polls = [];
-      });
+      );
    }
 
 }

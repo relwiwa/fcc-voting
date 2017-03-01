@@ -94,14 +94,14 @@ export class PollAddOptionComponent implements OnInit {
   }
 
   /* To dos:
-    - message in case of error */
+    - message in case of error:  show alert with button that emits editDone event */
   onSubmit() {
     let that = this;
     this.pollStore.addOptions(this.poll['pollId'], this.userId, this.optionsForm.get('newOptions').value)
-    .then(function(poll: Poll) {
+    .subscribe((poll) => {
       that.editDone.emit(poll);
     },
-    function(error) {
+    error => {
       console.log('error happened', error);
       that.editDone.emit(that.poll);
     });

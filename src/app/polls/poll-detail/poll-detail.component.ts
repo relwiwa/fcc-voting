@@ -36,7 +36,7 @@ export class PollDetailComponent implements OnInit, OnDestroy {
       // todo: validate pollId
       that.pollId = params['pollId'];
       that.pollStore.getPollById(that.pollId)
-      .then(
+      .subscribe(
         response => {
           // duplicate check for existing poll, should be handled by reject function
           if (response[0]) {
@@ -58,10 +58,9 @@ export class PollDetailComponent implements OnInit, OnDestroy {
         }
       );
     },
-      error => {
+    error => {
 //        that.errorMessage = error.message;
-      }
-    );
+    });
   }
 
   ngOnDestroy() {

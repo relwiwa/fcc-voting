@@ -24,8 +24,8 @@ export class PollBackendService {
   }
 
   public getAllPolls() {
-    return this.http.get(this.backendUrl + '/poll')
-      .toPromise();
+    console.log('get polls from backend');
+    return this.http.get(this.backendUrl + '/poll');
   }
 
   public createPoll(poll: Poll) {
@@ -40,13 +40,11 @@ export class PollBackendService {
     return this.http.post(
       this.backendUrl + '/poll' + token,
       body,
-      headers)
-      .toPromise();
+      headers);
   }
 
   public deletePoll(pollId: string) {
-    return this.http.delete(this.backendUrl + '/poll/' + pollId + '?token=' + localStorage.getItem('token'))
-      .toPromise();
+    return this.http.delete(this.backendUrl + '/poll/' + pollId + '?token=' + localStorage.getItem('token'));
   }
 
   public vote(pollId, vote) {
@@ -60,8 +58,7 @@ export class PollBackendService {
     return this.http.patch(
       this.backendUrl + '/poll/' + pollId,
       body,
-      headers)
-      .toPromise();
+      headers);
   }
 
   public addOptions(pollId, userId, newOptions) {
@@ -78,8 +75,7 @@ export class PollBackendService {
     return this.http.put(
       this.backendUrl + '/poll/' + pollId + '?token=' + localStorage.getItem('token'),
       body,
-      headers)
-      .toPromise();
-  }
+      headers);
+    }
 
 }

@@ -79,33 +79,11 @@ export class PollVoteComponent implements OnInit {
     }
   }
 
-  private extractVoteDateAndTime(dateString) {
-    function addPendingZero(str) {
-      if ((str + '').length === 1) {
-        str = '0' + str;
-      }
-      return str;
-    }
-    let result = {
-      date: '',
-      time: ''
-    };
-    let date = new Date(dateString);
-    result.date += date.getFullYear() + '-';
-    result.date += addPendingZero(date.getMonth()) + '-';
-    result.date += addPendingZero(date.getDate());
-    result.time += addPendingZero(date.getHours()) + ':';
-    result.time += addPendingZero(date.getMinutes()) + ':';
-    result.time += addPendingZero(date.getSeconds());
-    return result;
-  }
-
   onChoseOption(event) {
     this.optionSelectedId = event.target.id;
   }
 
   onSubmit() {
-    let that = this;
     this.voteDate = new Date();
     let vote = {
       optionId: this.optionSelectedId,
@@ -115,17 +93,17 @@ export class PollVoteComponent implements OnInit {
     this.submitted = true;
     this.statusMessage = 'Your vote is being sent to the server'
     this.pollStore.vote(this.poll['pollId'], vote)
-    .then(function(poll: Poll) {
-      that.poll = poll;
-      that.alreadyVoted = true;
-      that.statusMessage = 'Your vote was successfully saved. Thank you for voting!'
-      if (that.authService.isSignedIn() === false) {
-        that.saveVoteToLocalStorage(poll.pollId, vote);
+    .subscribe((poll: Poll) => {
+      this.poll = poll;
+      this.alreadyVoted = true;
+      this.statusMessage = 'Your vote was successfully saved. Thank you for voting!'
+      if (this.authService.isSignedIn() === false) {
+        this.saveVoteToLocalStorage(poll.pollId, vote);
       }
-      that.voted.emit(that.poll);
+      this.voted.emit(this.poll);
     },
-    function(error) {
-      that.statusMessage = 'An error happened, so your vote was not saved. Please try again or contact our support';      
+    (error) => {
+      this.statusMessage = 'An error happened, so your vote was not saved. Please try again or contact our support';      
     });
   }
 

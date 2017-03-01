@@ -78,7 +78,7 @@ router.patch('/:pollId', function(req, res, next) {
         }
         return res.status(200).json({
           message: 'Vote was successfully saved',
-          poll: poll
+          response: poll
         });
       }
     );
@@ -153,7 +153,7 @@ router.put('/:pollId', function(req, res, next) {
       }
       return res.status(200).json({
         message: 'Vote was successfully saved',
-        poll: poll
+        response: poll
       });
     }
   );
