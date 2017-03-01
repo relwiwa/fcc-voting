@@ -18,10 +18,10 @@
       "prefix": "app",
       "mobile": false,
       "styles": [
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "styles.css"
       ],
       "scripts": [
+        "../node_modules/core-js/client/shim.min.js",
         "../node_modules/chart.js/dist/Chart.min.js"
       ],
       "environments": {
