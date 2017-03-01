@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { AuthenticationService } from '../../user/authentication.service';
 import { Poll } from '../poll.model';
-import { PollStore } from '../pollStore.service';
+import { PollStore } from '../poll-store.service';
 
 @Component({
   selector: 'poll-vote',

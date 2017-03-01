@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Poll } from '../poll.model';
-import { PollStore } from '../pollStore.service';
+import { PollStore } from '../poll-store.service';
 
 declare var Chart: any;
 

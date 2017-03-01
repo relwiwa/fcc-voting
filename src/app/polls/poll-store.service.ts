@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
 import { Poll } from './poll.model';
-import { PollBackendService } from './pollBackend.service';
+import { PollBackendService } from './poll-backend.service';
 
 import { Observable } from 'rxjs/Observable';
 

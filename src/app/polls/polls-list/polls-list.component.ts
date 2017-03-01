@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Poll } from '../poll.model';
-import { PollStore } from '../pollStore.service';
+import { PollStore } from '../poll-store.service';
 
 @Component({
   selector: 'polls-list',

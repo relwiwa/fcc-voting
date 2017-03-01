@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthenticationService } from '../../user/authentication.service';
 import { Poll } from '../poll.model';
-import { PollStore } from '../pollStore.service';
+import { PollStore } from '../poll-store.service';
 
 @Component({
   selector: 'poll-detail',

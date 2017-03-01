@@ -3,7 +3,7 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } fr
 
 import { Poll } from '../poll.model';
 import { PollsService } from '../polls.service';
-import { PollStore } from '../pollStore.service';
+import { PollStore } from '../poll-store.service';
 import { AuthenticationService } from '../../user/authentication.service';
 
 @Component({
