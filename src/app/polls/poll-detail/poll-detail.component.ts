@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthenticationService } from '../../user/authentication.service';
@@ -11,7 +11,7 @@ import { PollStore } from '../poll-store.service';
   styleUrls: ['./poll-detail.component.css']
 })
 
-export class PollDetailComponent implements OnInit, OnDestroy {
+export class PollDetailComponent implements OnChanges, OnInit, OnDestroy {
   private poll: Poll;
   private pollId: string;
   private subscription: any;
@@ -61,6 +61,10 @@ export class PollDetailComponent implements OnInit, OnDestroy {
     error => {
 //        that.errorMessage = error.message;
     });
+  }
+
+  ngOnChanges() {
+    console.log('on changes fired in poll-detail');
   }
 
   ngOnDestroy() {

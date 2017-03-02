@@ -4,33 +4,28 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/Rx';
 
 import { Poll } from './poll.model';
+import { PollsService } from './polls.service';
 
 @Injectable()
 export class PollBackendService {
 
   private backendUrl: string;
 
-  constructor(private http: Http) {
-    this.setupBackendUrl();
-  }
-
-  private setupBackendUrl() {
-    if (window.location.hostname === 'localhost') {
-      this.backendUrl = window.location.protocol + '//' + window.location.hostname + ':3000';
-    }
-    else {
-      this.backendUrl = window.location.origin; 
-    }
+  constructor(private http: Http,
+              private pollsService: PollsService) {
+    this.backendUrl = this.pollsService.setupBackendUrl();
   }
 
   public getAllPolls() {
-    console.log('get polls from backend');
     return this.http.get(this.backendUrl + '/poll');
   }
 
-  public createPoll(poll: Poll) {
+  public createPoll(poll: Poll, socketId: string) {
     const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
-    const body = JSON.stringify(poll);
+    const body = JSON.stringify({
+      poll: poll,
+      socketId: socketId
+    });
     const headers = {
       headers: new Headers({
         'Content-Type': 'application/json'
@@ -43,12 +38,15 @@ export class PollBackendService {
       headers);
   }
 
-  public deletePoll(pollId: string) {
+  public deletePoll(pollId: string, socketId: string) {
     return this.http.delete(this.backendUrl + '/poll/' + pollId + '?token=' + localStorage.getItem('token'));
   }
 
-  public vote(pollId, vote) {
-    const body = JSON.stringify(vote);
+  public vote(pollId, vote, socketId) {
+    const body = JSON.stringify({
+      'vote': vote,
+      'socketId': socketId
+    });
     const headers = {
       headers: new Headers({
         'Content-Type': 'application/json'
@@ -61,10 +59,11 @@ export class PollBackendService {
       headers);
   }
 
-  public addOptions(pollId, userId, newOptions) {
+  public addOptions(pollId, userId, newOptions, socketId) {
     const body = JSON.stringify({
       userId: userId,
-      options: newOptions
+      options: newOptions,
+      socketId: socketId
     });
     const headers = {
       headers: new Headers({

@@ -17,13 +17,18 @@ export class PollResultsComponent implements AfterViewInit, OnInit {
   @Input() poll: Poll;
   @Input() userOwnsPoll: boolean;
   private userEditsPoll: boolean;
+  private myChart;
 
   constructor(private pollStore: PollStore,
-              private router: Router) { }
-
+              private router: Router) {
+    this.myChart = null;
+  }
 
   ngOnInit() {
     this.userEditsPoll = false;
+    if (this.poll.voters.length > 0) {
+      this.sortOptions();
+    }
   }
 
   ngAfterViewInit() {
@@ -63,7 +68,7 @@ export class PollResultsComponent implements AfterViewInit, OnInit {
         dataForChart.datasets[0].data.push(votes);  
       }
     }
-    var myChart = new Chart(ctx, {
+    this.myChart = new Chart(ctx, {
         type: 'pie',
         data: dataForChart
     });

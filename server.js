@@ -2,15 +2,20 @@
     - Angular2 and Node Udemy course by Patrick Schwarzmüller
     - https://scotch.io/tutorials/mean-app-with-angular-2-and-the-angular-cli#connecting-component-to-express-api */
 
+// Require and setup Express, Server, Socket.io
+var express = require('express');
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var port = process.env.PORT || '3000';
+var socketIo = require('socket.io')();
+
 // Dependencies
 var bodyParser = require('body-parser');
 var dotenv = require('dotenv').config();
-var express = require('express');
-var http = require('http');
 var mongoose = require('mongoose');
 var path = require('path');
 
-var app = express();
 
 // Mongoose
 mongoose.connect(process.env.MONGO_DATABASE);
@@ -22,6 +27,13 @@ var pollRoutes = require('./server//routes/poll');
 var userRoutes = require('./server/routes/user');
 
 // MIDDLEWARES
+
+// Attach socket.io to req-object
+// http://verwebbt.de/2014/11/30/socket-io-in-an-express-app/
+app.use(function(req, res, next) {
+  req.socketIo = socketIo;
+  next();
+});
 
 // Serve static (Angular2) files from dist folder 
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -54,10 +66,16 @@ app.use(function(req, res, next) {
 
 /* SETUP NODE SERVER */
 
-var port = process.env.PORT || '3000';
 app.set('port', port);
 
-var server = http.createServer(app);
+socketIo.on('connection', function(client) {
+  console.log('Client connected...');
+  client.emit('connected', {
+    'message': 'socket.io connection was successfully established',
+    'socketId': client.id
+  });
+  client.broadcast.emit('intro', 'someone else joined');
+});
 
 server.listen(port, function(err, res) {
   if (err) {
@@ -67,5 +85,7 @@ server.listen(port, function(err, res) {
     console.log('Server started successfully on port ' + port);
   }
 });
+
+socketIo.listen(server);
 
 module.exports = app;

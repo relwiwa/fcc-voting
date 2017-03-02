@@ -48,5 +48,13 @@ export class PollsService {
     return hasDoubleEntries;
   }
 
+  setupBackendUrl() {
+    if (window.location.hostname === 'localhost') {
+      return window.location.protocol + '//' + window.location.hostname + ':3000';
+    }
+    else {
+      return window.location.origin; 
+    }
+  }
 
 }

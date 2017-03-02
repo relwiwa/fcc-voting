@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose');
 
 var jwt = require('jsonwebtoken');
 
@@ -7,6 +8,7 @@ var validation = require('../utils/validation');
 
 var Poll = require('../models/poll');
 var User = require('../models/user');
+
 
 router.get('/', function(req, res, next) {
   Poll.find()
@@ -50,9 +52,13 @@ router.options('*', function(req, res, next) {
 router.patch('/:pollId', function(req, res, next) {
   var inputValidation = null;
   var voterObject = {};
+  // create values beforehand, so that they can be sent back to client/s
+  voterObject['_id'] = mongoose.Types.ObjectId();
+  voterObject['voteDate'] = Date.now();
   var pollId = req.params.pollId;
-  var optionId = req.body.optionId;
-  var voterId = req.body.voterId;
+  var optionId = req.body.vote.optionId;
+  var voterId = req.body.vote.voterId;
+  var socketId = req.body.socketId;
   if (voterId === null) {
     inputValidation = validation.objectIds(pollId, optionId);
   }
@@ -61,7 +67,9 @@ router.patch('/:pollId', function(req, res, next) {
     voterObject.voterId = voterId;
     voterObject.optionId = optionId
   }
-  // As route is open to public, validate input
+  if (inputValidation === true && socketId !== null) {
+    inputValidation = validation.socketIds(socketId);
+  }
   if (inputValidation === true) {
     // server-side check missing to insure creator !== voter
     Poll.findOneAndUpdate(
@@ -76,10 +84,21 @@ router.patch('/:pollId', function(req, res, next) {
             title: 'An error occurred, the vote was not saved.'
           });
         }
-        return res.status(200).json({
-          message: 'Vote was successfully saved',
-          response: poll
-        });
+        var resultObject = {
+          message: 'Vote was successfully added',
+          response: {
+            pollId: pollId,
+            optionId: optionId,
+            newVote: voterObject
+          }
+        };
+        return (function() {
+          res.status(200).json(resultObject);
+          var socket = req.socketIo.sockets.connected[req.body.socketId];
+          if (socket) {
+            socket.broadcast.emit('vote-added', resultObject);
+          }
+        })();
       }
     );
   }

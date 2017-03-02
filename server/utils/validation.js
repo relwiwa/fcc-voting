@@ -1,7 +1,19 @@
 function validation() {
   return {
-    objectIds: validateObjectIds
+    objectIds: validateObjectIds,
+    socketIds: validateSocketIds
   }
+}
+
+function checkRegExp(regExp, args) {
+  var result = true;
+  for (var i = 0; i < args.length; i++) {
+    if (regExp.test(args[i]) === false && args[i] !== null) {
+      result = false;
+      break;
+    }
+  }
+  return result;  
 }
 
 function validateObjectIds() {
@@ -15,5 +27,12 @@ function validateObjectIds() {
   }
   return result;
 }
+
+function validateSocketIds() {
+  var regExp = new RegExp(/^[a-zA-Z0-9_-]+$/);
+  var result = checkRegExp(regExp, arguments);
+  return result;
+}
+
 
 module.exports = validation(); 
