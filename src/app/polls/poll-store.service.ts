@@ -6,7 +6,6 @@ import { PollBackendService } from './poll-backend.service';
 import { PollsService } from './polls.service';
 
 import { Observable } from 'rxjs/Observable';
-import * as io from 'socket.io-client';
 
 declare var io: any;
 
@@ -130,7 +129,7 @@ export class PollStore {
     });
     return observable;
   }
-
+  
   public createPoll(poll: Poll) {
     let observable = this.getAllPolls()
     .flatMap(() => {
