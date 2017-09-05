@@ -7,7 +7,7 @@ import { PollsService } from './polls.service';
 
 import { Observable } from 'rxjs/Observable';
 
-declare var io: any;
+import * as io from 'socket.io-client';
 
 @Injectable()
 export class PollStore {

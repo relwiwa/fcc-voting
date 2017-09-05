@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { Poll } from '../poll.model';
 import { PollStore } from '../poll-store.service';
 
-declare var Chart: any;
+import * as Chart from 'chart.js';
+
+//declare var Chart: any;
 
 @Component({
   selector: 'poll-results',
