@@ -7,7 +7,7 @@
       class="alert alert-warning"
       [hidden]="!optionsForm.get('newOptions').hasError('duplicate')">You entered duplicate new options</div>
       <div formArrayName="newOptions">
-        <div *ngFor="let option of optionsForm.get('newOptions').controls; let i = index;">
+        <div *ngFor="let option of formData; let i = index;">
           <div class="input-group">
             <span class="input-group-addon">{{i + 1 + poll.options.length}}</span>
             <input

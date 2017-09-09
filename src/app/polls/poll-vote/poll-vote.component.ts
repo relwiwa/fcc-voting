@@ -15,17 +15,17 @@ export class PollVoteComponent implements OnInit {
   @Output() voted: EventEmitter<Poll> = new EventEmitter<Poll>();
   @Output() showResults: EventEmitter<void> = new EventEmitter<void>();
 
-  private optionSelectedId: string;
-  private voterId: string;
-  private voteDate: Date;
-  private isSignedIn: boolean;
-  private alreadyVoted: boolean;
-  private submitted: boolean;
+  optionSelectedId: string;
+  voterId: string;
+  voteDate: Date;
+  isSignedIn: boolean;
+  alreadyVoted: boolean;
+  submitted: boolean;
 
-  private statusMessage: string;
+  statusMessage: string;
 
-  constructor(private authService: AuthenticationService,
-              private pollStore: PollStore) { }
+  constructor(public authService: AuthenticationService,
+              public pollStore: PollStore) { }
 
   ngOnInit() {
     let that = this;
@@ -33,7 +33,7 @@ export class PollVoteComponent implements OnInit {
     this.setupAlreadyVoted();
   }
 
-  private setupAlreadyVoted() {
+  setupAlreadyVoted() {
     if (this.poll.voters) {
       let voteInLS = this.checkVoteInLocalStorage(this.poll.pollId);
       this.isSignedIn = this.authService.isSignedIn();
@@ -61,7 +61,7 @@ export class PollVoteComponent implements OnInit {
     }
   }
 
-  private saveVoteToLocalStorage(pollId, vote) {
+  saveVoteToLocalStorage(pollId, vote) {
     let voteDetails = {
       vote: vote.optionId,
       voteDate: vote.voteDate
@@ -69,7 +69,7 @@ export class PollVoteComponent implements OnInit {
     localStorage.setItem(pollId, JSON.stringify(voteDetails));
   }
 
-  private checkVoteInLocalStorage(pollId) {
+  checkVoteInLocalStorage(pollId) {
     let voteInLS = localStorage.getItem(pollId);
     if (voteInLS === null) {
       return null;      

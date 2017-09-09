@@ -18,11 +18,11 @@ export class PollResultsComponent implements AfterViewInit, OnInit {
 
   @Input() poll: Poll;
   @Input() userOwnsPoll: boolean;
-  private userEditsPoll: boolean;
-  private myChart;
+  userEditsPoll: boolean;
+  myChart;
 
-  constructor(private pollStore: PollStore,
-              private router: Router) {
+  constructor(public pollStore: PollStore,
+              public router: Router) {
     this.myChart = null;
   }
 

@@ -12,17 +12,17 @@ import { PollStore } from '../poll-store.service';
 })
 
 export class PollDetailComponent implements OnChanges, OnInit, OnDestroy {
-  private poll: Poll;
-  private pollId: string;
-  private subscription: any;
+  poll: Poll;
+  pollId: string;
+  subscription: any;
 
-  private userOwnsPoll: boolean;
-  private showResults: boolean;
+  userOwnsPoll: boolean;
+  showResults: boolean;
 
-  constructor(private pollStore: PollStore,
-              private route: ActivatedRoute,
-              private router: Router,
-              private authService: AuthenticationService) {
+  constructor(public pollStore: PollStore,
+              public route: ActivatedRoute,
+              public router: Router,
+              public authService: AuthenticationService) {
     this.poll = null;
     this.pollId = null;
     this.userOwnsPoll = null;

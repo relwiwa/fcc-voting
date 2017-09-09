@@ -15,14 +15,14 @@ import { AuthenticationService } from '../../user/authentication.service';
 })
 
 export class PollCreationComponent implements OnInit {
-  private pollForm: FormGroup;
-  private submitted: boolean;
-  private errorMessage: string;
+  pollForm: FormGroup;
+  submitted: boolean;
+  errorMessage: string;
 
-  constructor(private authService: AuthenticationService,
-              private pollsService: PollsService,
-              private pollStore: PollStore,
-              private router: Router) {
+  constructor(public authService: AuthenticationService,
+              public pollsService: PollsService,
+              public pollStore: PollStore,
+              public router: Router) {
     this.submitted = false;
     this.errorMessage = null;
   }

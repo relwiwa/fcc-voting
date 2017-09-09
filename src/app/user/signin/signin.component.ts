@@ -11,11 +11,12 @@ import { User } from '../user.model';
   styleUrls: ['./signin.component.css']
 })
 export class SigninComponent implements OnInit {
-  private signinForm: FormGroup;
-  private submitted: boolean;
-  private errorMessage: string;
+  signinForm: FormGroup;
+  submitted: boolean;
+  errorMessage: string;
 
-  constructor(private authService: AuthenticationService, private router: Router) { 
+  constructor(public authService: AuthenticationService,
+              public router: Router) { 
     this.submitted = false;
     this.errorMessage = null;
   }

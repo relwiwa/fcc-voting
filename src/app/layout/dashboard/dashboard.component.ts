@@ -13,6 +13,6 @@ import { AuthenticationService } from '../../user/authentication.service';
 
 export class DashboardComponent {
 
-  constructor(private authService: AuthenticationService) { }
+  constructor(public authService: AuthenticationService) { }
 
 }

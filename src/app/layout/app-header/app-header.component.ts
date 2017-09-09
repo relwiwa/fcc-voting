@@ -9,9 +9,9 @@ import { AuthenticationService } from '../../user/authentication.service';
 })
 
 export class AppHeaderComponent {
-  private navbarIn: boolean;
+  navbarIn: boolean;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(public authService: AuthenticationService) {
     this.navbarIn = false;
   }
 
@@ -19,7 +19,7 @@ export class AppHeaderComponent {
     this.navbarIn = this.navbarIn === false ? true : false;
   }
 
-  collapseNavbar(event, url) {
+  collapseNavbar() {
     this.navbarIn = false;
   }
 

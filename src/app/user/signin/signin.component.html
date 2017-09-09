@@ -6,15 +6,15 @@
         <div class="panel-heading">
           <h3>Signin</h3>
         </div>
-        <div *ngIf="!submitted && !errorMessage" class="panel-body">
+        <div *ngIf="!submitted && errorMessage === null" class="panel-body">
           <p class="lead">Signin below to create and manage your own polls</p>
           <p class="lead">If you have no account yet, please <a [routerLink]="['/signup']">sign up</a></p>
         </div>
-        <div *ngIf="submitted && !errorMessage" class="panel-body">
+        <div *ngIf="submitted && errorMessage === null" class="panel-body">
           <p class="lead">Sending singin data to server</p>
           <p class="lead">Please wait</p>
         </div>
-        <div *ngIf="!submitted && errorMessage" class="panel-body">
+        <div *ngIf="!submitted && errorMessage !== null" class="panel-body">
           <p class="lead">{{errorMessage}}</p>
         </div>
       </div>

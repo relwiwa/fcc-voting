@@ -16,17 +16,17 @@ export class PollAddOptionComponent implements OnInit {
   @Input() poll: Poll;
   @Output() editCancelled: EventEmitter<void> = new EventEmitter<void>();
   @Output() editDone: EventEmitter<Poll> = new EventEmitter<Poll>();
-  private optionsForm: FormGroup;
-  private submitted: boolean;
-  private errorMessage: string;
-  private userId: string;
+  optionsForm: FormGroup;
+  submitted: boolean;
+  errorMessage: string;
+  userId: string;
 
-  constructor(private authService: AuthenticationService,
-              private pollsService: PollsService,
-              private pollStore: PollStore) {
+  constructor(public authService: AuthenticationService,
+              public pollsService: PollsService,
+              public pollStore: PollStore) {
     this.submitted = false;
     this.errorMessage = null;
-   }
+  }
 
   ngOnInit() {
     this.optionsForm = new FormGroup({
@@ -36,6 +36,12 @@ export class PollAddOptionComponent implements OnInit {
       this.checkDuplicateAndExistingEntries.bind(this))
     });
     this.userId = this.authService.getUserId();
+  }
+
+  /*  Workaround, 2nd grade for <FormArray> cast to also work in html template
+      https://github.com/angular/angular-cli/issues/6099 */
+  get formData() {
+    return (<FormArray>this.optionsForm.get('newOptions')).controls;
   }
 
   /* rebuilt without using lodash from:

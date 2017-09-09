@@ -11,10 +11,10 @@ import { PollStore } from '../poll-store.service';
 
 export class PollsListComponent {
 
-  private polls = null;
+  polls = null;
   @Input() amount: number = null;
 
-  constructor(private pollStore: PollStore) {
+  constructor(public pollStore: PollStore) {
     let that = this;
     this.pollStore.getAllPolls()
       .subscribe(

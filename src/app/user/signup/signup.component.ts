@@ -11,11 +11,11 @@ import { User } from '../user.model';
 })
 
 export class SignupComponent implements OnInit {
-  private signupForm: FormGroup;
-  private submitted: boolean;
-  private signupSuccess: boolean;
+  signupForm: FormGroup;
+  submitted: boolean;
+  signupSuccess: boolean;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(public authService: AuthenticationService) {
     this.submitted = false;
     this.signupSuccess = null;
   }
